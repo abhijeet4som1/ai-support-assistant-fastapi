@@ -1,5 +1,5 @@
 """Initial schema: pgvector extension, tables, enums, HNSW and GIN indexes, generated tsvector,
-thinking/total token columns. Replays the original Drizzle SQL files verbatim (alembic/sql/).
+thinking/total token columns, applied from the SQL files in alembic/sql/.
 
 Revision ID: 0001
 Revises:

@@ -6,10 +6,10 @@ rate and correct answers so later answers improve. Guidelines are uploaded per c
 and processed in the background; every chat turn records what was retrieved, which corrections
 were used, the model and all four token counts, so an agent can see _why_ an answer was given.
 
-This repository is a Python port of [`ai-support-assistant`](https://github.com/abhijeet4som1/ai-support-assistant)
-(TypeScript, Fastify, Smithy spec-first). The React web app is reused unchanged: the backend is
-wire-compatible with the original API contract, which is kept as
-`packages/openapi/reference-smithy.json` and checked by a test.
+The backend is code-first: the Pydantic models are the API contract, the OpenAPI document is
+exported from them and the web client types are generated from that document. The contract is
+frozen in `packages/openapi/reference-smithy.json` and a test fails on any incompatible change,
+so the api and the web app cannot drift apart.
 
 | Layer         | This repository                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------------------ |
@@ -90,10 +90,10 @@ api/
     db/                SQLAlchemy models, session, migrate, seed, reembed
     worker.py          python -m app.worker
     openapi_export.py  writes packages/openapi/openapi.json
-  alembic/             migration replaying the original SQL (alembic/sql/) verbatim
+  alembic/             migrations (plain SQL in alembic/sql/, applied by the initial revision)
   prompts/             prompt templates ({{placeholders}}); seed/ sample guidelines; eval/ harnesses
   tests/               pytest (pgvector testcontainer, fakes for Gemini, in-memory queue)
-web/                   React app, unchanged from the original
+web/                   React app (TanStack Router/Query, generated API client)
 packages/openapi/      openapi.json (exported) and reference-smithy.json (frozen contract)
 nginx/                 reverse proxy templates (prod, dev, tls)
 ```
@@ -146,8 +146,7 @@ cd api && uv run python -m eval.retrieval_eval
 cd api && uv run python -m eval.corrections_eval
 ```
 
-Results and the decisions they drove are in `docs/evaluation-report.md` of the original
-repository; `docs/evals/` here holds the runs made with this port.
+Each run writes its raw results and a Markdown report to `docs/evals/`.
 
 ## Testing
 

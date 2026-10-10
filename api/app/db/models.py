@@ -1,5 +1,5 @@
 """Database schema (SQLAlchemy 2, PostgreSQL + pgvector). The tables are created by the Alembic
-migration (a verbatim replay of the original Drizzle SQL); these mappings only describe them.
+migration (plain SQL under alembic/sql/); these mappings only describe them.
 Timestamps and ids are generated in Python so rows inserted in one transaction stay ordered."""
 
 from __future__ import annotations
