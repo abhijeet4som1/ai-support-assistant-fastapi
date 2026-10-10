@@ -122,9 +122,13 @@ code (authoritative, but a second toolchain and generated code to maintain), or 
 with no exported document (fast, drifts). Code-first keeps one source of truth in the language the
 reviewers read, at the cost of discipline the tests supply.
 
-**FastAPI as the HTTP host.** Async request handling on uvicorn, dependency injection for the
-per-request session and services, Swagger UI at `/api/docs`, and small pure-ASGI middlewares for
-the request id and for authentication before routing. The default 422 validation response is
+**FastAPI as the HTTP host.** Async request handling on uvicorn (two worker processes per
+container by default, since each is single-threaded), dependency injection for the per-request
+session and services, Swagger UI at `/api/docs`, and small pure-ASGI middlewares for the request
+id and for authentication before routing. Responses are serialised once by pydantic-core and
+handed to FastAPI as finished responses, read-only requests use AUTOCOMMIT sessions, and the
+post-JWT user lookup is cached for 30 seconds; with those, one container matches the previous
+Node backend's throughput on the database-bound endpoints. The default 422 validation response is
 rewritten to the contract's 400 `ValidationException` with JSON-pointer field paths, and every
 modelled error is a Python exception rendered with the `x-amzn-errortype` header the web app
 switches on.

@@ -128,6 +128,12 @@ changing `GEMINI_EMBEDDING_MODEL`, re-embed stored vectors with
 `uv run python -m app.db.reembed`; changing `GEMINI_EMBEDDING_DIMENSIONS` needs a migration and
 a re-ingest, and the api and worker refuse to start on a mismatch.
 
+### Serving
+
+The api container runs `UVICORN_WORKERS` uvicorn processes (default 2; raise it with the CPU
+count). Start-up work (migrations, queue schema, seed) runs under a Postgres advisory lock so
+several workers starting at once do not race.
+
 ## Configuration
 
 Every variable is listed in `.env.example` with its default: Gemini models and thinking level,
