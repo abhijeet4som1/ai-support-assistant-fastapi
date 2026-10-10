@@ -1,0 +1,3 @@
+# Generated files (lint-staged runs prettier from this folder, so the root ignore file is not consulted)
+src/routeTree.gen.ts
+src/api/schema.d.ts

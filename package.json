@@ -1,0 +1,45 @@
+{
+  "name": "ai-support-assistant-fastapi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI assistant for customer-support teams: FastAPI + Pydantic api (code-first OpenAPI), RAG over company guidelines, React UI.",
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+    "up": "docker compose up --build -d",
+    "down": "docker compose down",
+    "reset": "docker compose down -v",
+    "codegen": "cd api && uv run python -m app.openapi_export && cd .. && pnpm --filter web api:types",
+    "lint": "pnpm -r --parallel run lint && cd api && uv run ruff check . && uv run ruff format --check .",
+    "format": "prettier --write . && cd api && uv run ruff format .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r --parallel run typecheck && cd api && uv run mypy",
+    "test": "pnpm -r run test && cd api && uv run pytest",
+    "build": "pnpm -r run build",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14"
+  },
+  "lint-staged": {
+    "*.{json,md,yml,yaml,css,html}": [
+      "prettier --write --ignore-unknown"
+    ],
+    "api/**/*.py": [
+      "uv run --project api ruff check --fix",
+      "uv run --project api ruff format"
+    ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "unrs-resolver"
+    ]
+  }
+}

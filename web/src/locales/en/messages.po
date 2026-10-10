@@ -1,0 +1,849 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-13 00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. placeholder {0}: formatBytes(v.sizeBytes)
+#. placeholder {1}: v.uploadedBy?.displayName ?? '—'
+#. placeholder {2}: formatDateTime(v.createdAt)
+#. placeholder {3}: v.chunksTotal ? ` · ${v.chunksTotal} sections` : ''
+#: src/components/guidelines/guideline-version-list.tsx:64
+msgid "{0} · uploaded by {1} on {2}{3}"
+msgstr "{0} · uploaded by {1} on {2}{3}"
+
+#. placeholder {0}: c.conversationCount ?? 0
+#. placeholder {0}: company.conversationCount ?? 0
+#: src/components/companies/company-list.tsx:55
+#: src/routes/_authenticated/companies/$companyId.tsx:56
+msgid "{0} conversations"
+msgstr "{0} conversations"
+
+#. placeholder {0}: version.chunksEmbedded ?? 0
+#. placeholder {1}: version.chunksTotal ?? 0
+#: src/components/guidelines/guideline-progress.tsx:58
+msgid "{0} of {1} sections"
+msgstr "{0} of {1} sections"
+
+#. placeholder {0}: others.length
+#. placeholder {1}: others .map((f) => `${f.user?.displayName ?? '?'} ${f.rating === 'up' ? '👍' : '👎'}`) .join(', ')
+#: src/components/feedback/feedback-controls.tsx:107
+msgid "{0} other rating(s): {1}"
+msgstr "{0} other rating(s): {1}"
+
+#. placeholder {0}: message.completionTokens
+#: src/components/history/why-panel.tsx:72
+msgid "{0} output tokens"
+msgstr "{0} output tokens"
+
+#. placeholder {0}: message.promptTokens
+#: src/components/history/why-panel.tsx:62
+msgid "{0} prompt tokens"
+msgstr "{0} prompt tokens"
+
+#. placeholder {0}: message.thinkingTokens
+#: src/components/history/why-panel.tsx:67
+msgid "{0} thinking tokens"
+msgstr "{0} thinking tokens"
+
+#. placeholder {0}: c.tokenCount
+#: src/components/guidelines/guideline-viewer.tsx:36
+msgid "{0} tokens"
+msgstr "{0} tokens"
+
+#. placeholder {0}: message.totalTokens
+#: src/components/history/why-panel.tsx:77
+msgid "{0} total tokens"
+msgstr "{0} total tokens"
+
+#. placeholder {0}: conflict.uploadedBy
+#. placeholder {1}: formatDateTime(conflict.uploadedAt)
+#: src/components/guidelines/guideline-upload.tsx:169
+msgid "{0} uploaded new guidelines on {1}, after you opened this page. Replace their version with your file?"
+msgstr "{0} uploaded new guidelines on {1}, after you opened this page. Replace their version with your file?"
+
+#. placeholder {0}: g.escalation.to
+#: src/components/chat/assistant-message.tsx:76
+msgid "→ {0}"
+msgstr "→ {0}"
+
+#: src/routes/_authenticated/companies/$companyId.tsx:110
+msgid "About"
+msgstr "About"
+
+#: src/components/history/conversation-table.tsx:63
+msgid "Actions"
+msgstr "Actions"
+
+#: src/components/feedback/corrections-list.tsx:50
+#: src/components/guidelines/guideline-version-list.tsx:23
+msgid "Active"
+msgstr "Active"
+
+#. placeholder {0}: version.filename
+#. placeholder {1}: formatDateTime(version.readyAt ?? version.updatedAt)
+#. placeholder {2}: chunks.length
+#: src/components/guidelines/guideline-viewer.tsx:21
+msgid "Active file <0>{0}</0>, processed on {1} into {2} sections."
+msgstr "Active file <0>{0}</0>, processed on {1} into {2} sections."
+
+#: src/components/companies/company-list.tsx:18
+msgid "Add a company and upload its support guidelines to start chatting on its behalf."
+msgstr "Add a company and upload its support guidelines to start chatting on its behalf."
+
+#: src/components/companies/company-list.tsx:25
+#: src/routes/_authenticated/companies/index.tsx:32
+#: src/routes/_authenticated/companies/new.tsx:20
+msgid "Add company"
+msgstr "Add company"
+
+#: src/components/layout/app-header.tsx:32
+msgid "AI Support Assistant"
+msgstr "AI Support Assistant"
+
+#: src/components/history/history-filters.tsx:35
+#: src/routes/_authenticated/companies/$companyId.tsx:42
+msgid "All companies"
+msgstr "All companies"
+
+#: src/routes/_authenticated/history/$conversationId.tsx:31
+msgid "All conversations"
+msgstr "All conversations"
+
+#. placeholder {0}: company.activeGuidelines.filename
+#. placeholder {1}: formatRelative( company.activeGuidelines.readyAt ?? company.activeGuidelines.createdAt, )
+#: src/routes/_authenticated/chat.tsx:180
+msgid "Answers follow <0>{0}</0>, updated {1}."
+msgstr "Answers follow <0>{0}</0>, updated {1}."
+
+#: src/components/history/history-filters.tsx:58
+msgid "Any coverage"
+msgstr "Any coverage"
+
+#: src/components/guidelines/guideline-section.tsx:124
+msgid "Any processed version can be made active again."
+msgstr "Any processed version can be made active again."
+
+#. placeholder {0}: g.citations.length
+#: src/components/chat/assistant-message.tsx:162
+msgid "Based on {0} guideline sections"
+msgstr "Based on {0} guideline sections"
+
+#: src/routes/_authenticated/history/index.tsx:37
+msgid "Browse previous conversations and see why the assistant answered the way it did."
+msgstr "Browse previous conversations and see why the assistant answered the way it did."
+
+#: src/components/companies/company-form.tsx:110
+#: src/components/feedback/feedback-controls.tsx:158
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/components/auth/login-form.tsx:65
+#: src/components/companies/company-form.tsx:75
+#: src/components/guidelines/guideline-upload.tsx:92
+msgid "Cannot reach the server. Check your connection and try again."
+msgstr "Cannot reach the server. Check your connection and try again."
+
+#: src/components/layout/network-banner.tsx:16
+msgid "Cannot reach the server. Retrying automatically…"
+msgstr "Cannot reach the server. Retrying automatically…"
+
+#: src/routes/_authenticated/chat.tsx:86
+msgid "Cannot reach the server. Your message was not sent."
+msgstr "Cannot reach the server. Your message was not sent."
+
+#: src/components/layout/app-header.tsx:38
+msgid "Chat"
+msgstr "Chat"
+
+#: src/routes/_authenticated/history/index.tsx:35
+msgid "Chat History"
+msgstr "Chat History"
+
+#: src/components/guidelines/guideline-upload.tsx:120
+msgid "Choose a file"
+msgstr "Choose a file"
+
+#: src/components/chat/assistant-message.tsx:101
+msgid "Clarify with the customer"
+msgstr "Clarify with the customer"
+
+#: src/components/layout/app-header.tsx:46
+#: src/routes/_authenticated/companies/index.tsx:26
+msgid "Companies"
+msgstr "Companies"
+
+#: src/components/chat/company-picker.tsx:21
+#: src/components/history/conversation-table.tsx:50
+#: src/components/history/history-filters.tsx:27
+msgid "Company"
+msgstr "Company"
+
+#: src/routes/_authenticated/companies/new.tsx:44
+msgid "Company created"
+msgstr "Company created"
+
+#: src/routes/_authenticated/companies/new.tsx:28
+msgid "Company details"
+msgstr "Company details"
+
+#: src/components/companies/company-form.tsx:86
+msgid "Company name"
+msgstr "Company name"
+
+#: src/routes/_authenticated/companies/$companyId.tsx:100
+msgid "Company updated"
+msgstr "Company updated"
+
+#: src/routes/_authenticated/history/$conversationId.tsx:53
+msgid "Continue in chat"
+msgstr "Continue in chat"
+
+#: src/components/history/conversation-table.tsx:47
+msgid "Conversation"
+msgstr "Conversation"
+
+#: src/components/chat/assistant-message.tsx:143
+msgid "Copied"
+msgstr "Copied"
+
+#: src/components/chat/assistant-message.tsx:143
+msgid "Copy"
+msgstr "Copy"
+
+#: src/components/feedback/corrections-list.tsx:91
+#: src/components/feedback/feedback-controls.tsx:145
+msgid "Correct answer"
+msgstr "Correct answer"
+
+#: src/components/feedback/corrections-list.tsx:45
+msgid "Correction"
+msgstr "Correction"
+
+#: src/components/feedback/corrections-section.tsx:41
+msgid "Correction deactivated"
+msgstr "Correction deactivated"
+
+#: src/components/feedback/corrections-section.tsx:41
+msgid "Correction reactivated"
+msgstr "Correction reactivated"
+
+#: src/components/feedback/feedback-controls.tsx:67
+msgid "Correction saved. It will guide similar answers for this company."
+msgstr "Correction saved. It will guide similar answers for this company."
+
+#: src/components/feedback/corrections-section.tsx:20
+msgid "Corrections from agents"
+msgstr "Corrections from agents"
+
+#: src/components/history/why-panel.tsx:45
+msgid "Corrections used"
+msgstr "Corrections used"
+
+#: src/components/history/conversation-table.tsx:53
+#: src/components/history/history-filters.tsx:45
+msgid "Coverage"
+msgstr "Coverage"
+
+#: src/components/history/history-filters.tsx:59
+msgid "Covered"
+msgstr "Covered"
+
+#: src/components/chat/coverage-badge.tsx:12
+msgid "Covered by guidelines"
+msgstr "Covered by guidelines"
+
+#: src/routes/_authenticated/companies/new.tsx:36
+msgid "Create company"
+msgstr "Create company"
+
+#: src/routes/_authenticated/companies/new.tsx:22
+msgid "Create the company first; you upload its guidelines on the next screen."
+msgstr "Create the company first; you upload its guidelines on the next screen."
+
+#: src/components/chat/composer.tsx:94
+msgid "Ctrl/⌘ + Enter to send. The assistant only uses the guidelines of this company."
+msgstr "Ctrl/⌘ + Enter to send. The assistant only uses the guidelines of this company."
+
+#: src/components/chat/composer.tsx:62
+#: src/components/chat/composer.tsx:79
+#: src/components/feedback/corrections-list.tsx:77
+msgid "Customer message"
+msgstr "Customer message"
+
+#: src/components/feedback/corrections-list.tsx:72
+msgid "Deactivate"
+msgstr "Deactivate"
+
+#: src/components/companies/company-form.tsx:97
+msgid "Description"
+msgstr "Description"
+
+#: src/components/companies/company-form.tsx:92
+msgid "e.g. Bookshop"
+msgstr "e.g. Bookshop"
+
+#: src/components/chat/composer.tsx:83
+msgid "e.g. Make it shorter, more formal, or mention the 30-day policy…"
+msgstr "e.g. Make it shorter, more formal, or mention the 30-day policy…"
+
+#: src/routes/_authenticated/companies/$companyId.tsx:64
+msgid "Edit"
+msgstr "Edit"
+
+#: src/routes/_authenticated/companies/$companyId.tsx:82
+msgid "Edit company"
+msgstr "Edit company"
+
+#: src/components/companies/company-form.tsx:48
+msgid "Enter a company name"
+msgstr "Enter a company name"
+
+#: src/components/auth/login-form.tsx:37
+msgid "Enter your password"
+msgstr "Enter your password"
+
+#: src/components/auth/login-form.tsx:36
+msgid "Enter your username"
+msgstr "Enter your username"
+
+#: src/components/chat/assistant-message.tsx:70
+msgid "Escalation recommended"
+msgstr "Escalation recommended"
+
+#: src/components/guidelines/guideline-progress.tsx:24
+msgid "Extracting text"
+msgstr "Extracting text"
+
+#: src/components/guidelines/guideline-version-list.tsx:29
+msgid "Failed"
+msgstr "Failed"
+
+#: src/components/errors/error-views.tsx:45
+#: src/components/errors/error-views.tsx:93
+msgid "Go home"
+msgstr "Go home"
+
+#: src/components/feedback/corrections-section.tsx:23
+msgid "Golden examples collected from thumbs-down feedback. Active corrections are retrieved for similar customer messages; they are deactivated automatically when the guidelines are replaced."
+msgstr "Golden examples collected from thumbs-down feedback. Active corrections are retrieved for similar customer messages; they are deactivated automatically when the guidelines are replaced."
+
+#: src/components/guidelines/guideline-progress.tsx:66
+msgid "Guideline processing progress"
+msgstr "Guideline processing progress"
+
+#: src/components/guidelines/guideline-section.tsx:67
+msgid "Guidelines"
+msgstr "Guidelines"
+
+#. placeholder {0}: formatRelative(active.readyAt ?? active.createdAt)
+#: src/components/companies/guideline-status-badge.tsx:45
+msgid "Guidelines updated {0}"
+msgstr "Guidelines updated {0}"
+
+#: src/components/guidelines/guideline-upload.tsx:78
+msgid "Guidelines uploaded. Processing has started."
+msgstr "Guidelines uploaded. Processing has started."
+
+#. placeholder {0}: message.guidelineVersionId.slice(0, 8)
+#: src/components/history/why-panel.tsx:85
+msgid "guidelines v. {0}"
+msgstr "guidelines v. {0}"
+
+#: src/components/chat/assistant-message.tsx:87
+msgid "Handling steps"
+msgstr "Handling steps"
+
+#: src/components/feedback/corrections-list.tsx:40
+#: src/components/feedback/feedback-controls.tsx:85
+msgid "Helpful"
+msgstr "Helpful"
+
+#: src/components/guidelines/guideline-viewer.tsx:52
+msgid "Hide extracted text"
+msgstr "Hide extracted text"
+
+#: src/components/layout/app-header.tsx:42
+msgid "History"
+msgstr "History"
+
+#: src/components/feedback/corrections-list.tsx:54
+msgid "Inactive (guidelines changed)"
+msgstr "Inactive (guidelines changed)"
+
+#: src/components/guidelines/guideline-progress.tsx:26
+msgid "Indexing sections"
+msgstr "Indexing sections"
+
+#: src/components/chat/composer.tsx:67
+#: src/components/chat/composer.tsx:79
+#: src/components/chat/message-thread.tsx:100
+msgid "Instruction to assistant"
+msgstr "Instruction to assistant"
+
+#: src/components/auth/login-form.tsx:62
+msgid "Invalid username or password."
+msgstr "Invalid username or password."
+
+#: src/components/companies/company-form.tsx:53
+msgid "Keep the description under 1000 characters"
+msgstr "Keep the description under 1000 characters"
+
+#: src/components/companies/company-form.tsx:49
+msgid "Keep the name under 200 characters"
+msgstr "Keep the name under 200 characters"
+
+#: src/components/guidelines/guideline-upload.tsx:184
+msgid "Keep theirs"
+msgstr "Keep theirs"
+
+#: src/components/layout/app-header.tsx:53
+msgid "Language"
+msgstr "Language"
+
+#: src/components/history/conversation-table.tsx:59
+msgid "Last activity"
+msgstr "Last activity"
+
+#: src/components/chat/message-thread.tsx:59
+msgid "Load earlier messages"
+msgstr "Load earlier messages"
+
+#: src/components/chat/conversation-list.tsx:72
+#: src/components/history/conversation-table.tsx:102
+msgid "Load more"
+msgstr "Load more"
+
+#: src/components/auth/login-form.tsx:107
+#: src/routes/login.tsx:25
+msgid "Log in"
+msgstr "Log in"
+
+#: src/components/layout/app-header.tsx:76
+msgid "Log out"
+msgstr "Log out"
+
+#: src/components/auth/login-form.tsx:68
+msgid "Login failed. Please try again."
+msgstr "Login failed. Please try again."
+
+#: src/components/layout/app-header.tsx:35
+msgid "Main"
+msgstr "Main"
+
+#: src/components/guidelines/guideline-version-list.tsx:82
+msgid "Make active"
+msgstr "Make active"
+
+#: src/routes/_authenticated/companies/index.tsx:27
+msgid "Manage companies and their support guidelines."
+msgstr "Manage companies and their support guidelines."
+
+#: src/components/chat/composer.tsx:56
+msgid "Message type"
+msgstr "Message type"
+
+#: src/components/history/conversation-table.tsx:56
+msgid "Messages"
+msgstr "Messages"
+
+#: src/components/feedback/feedback-controls.tsx:95
+msgid "Needs correction"
+msgstr "Needs correction"
+
+#: src/components/chat/conversation-list.tsx:34
+#: src/components/chat/conversation-list.tsx:54
+#: src/components/history/conversation-table.tsx:77
+#: src/routes/_authenticated/chat.tsx:174
+#: src/routes/_authenticated/history/$conversationId.tsx:36
+msgid "New conversation"
+msgstr "New conversation"
+
+#: src/routes/_authenticated/chat.tsx:202
+msgid "New guidelines are being processed. Answers keep using the current version until they are ready."
+msgstr "New guidelines are being processed. Answers keep using the current version until they are ready."
+
+#: src/components/guidelines/guideline-section.tsx:81
+msgid "New guidelines are being processed. Chat keeps using the current version until they are ready."
+msgstr "New guidelines are being processed. Chat keeps using the current version until they are ready."
+
+#: src/components/guidelines/guideline-upload.tsx:175
+msgid "New guidelines were uploaded after you opened this page. Replace them with your file?"
+msgstr "New guidelines were uploaded after you opened this page. Replace them with your file?"
+
+#: src/components/companies/company-list.tsx:16
+msgid "No companies yet"
+msgstr "No companies yet"
+
+#: src/components/chat/company-picker.tsx:55
+msgid "No companies yet. <0>Add one</0>."
+msgstr "No companies yet. <0>Add one</0>."
+
+#: src/routes/_authenticated/chat.tsx:169
+msgid "No company selected"
+msgstr "No company selected"
+
+#: src/components/chat/conversation-list.tsx:38
+msgid "No conversations for this company yet."
+msgstr "No conversations for this company yet."
+
+#: src/components/history/conversation-table.tsx:36
+msgid "No conversations match"
+msgstr "No conversations match"
+
+#: src/components/feedback/corrections-list.tsx:22
+msgid "No corrections yet"
+msgstr "No corrections yet"
+
+#: src/components/companies/company-list.tsx:50
+#: src/routes/_authenticated/companies/$companyId.tsx:115
+msgid "No description"
+msgstr "No description"
+
+#: src/components/chat/company-picker.tsx:43
+#: src/components/companies/guideline-status-badge.tsx:52
+msgid "No guidelines yet"
+msgstr "No guidelines yet"
+
+#: src/components/guidelines/guideline-section.tsx:109
+msgid "No guidelines yet. Chat is disabled for this company until a file has been processed."
+msgstr "No guidelines yet. Chat is disabled for this company until a file has been processed."
+
+#: src/components/guidelines/guideline-version-list.tsx:50
+msgid "No uploads yet."
+msgstr "No uploads yet."
+
+#: src/components/history/why-panel.tsx:25
+msgid "None above the relevance threshold, so the assistant reported the topic as not covered."
+msgstr "None above the relevance threshold, so the assistant reported the topic as not covered."
+
+#: src/components/chat/coverage-badge.tsx:26
+#: src/components/history/history-filters.tsx:61
+msgid "Not covered"
+msgstr "Not covered"
+
+#: src/routes/_authenticated/companies/$companyId.tsx:69
+msgid "Open chat"
+msgstr "Open chat"
+
+#: src/components/feedback/corrections-list.tsx:63
+msgid "Open conversation"
+msgstr "Open conversation"
+
+#: src/components/feedback/feedback-controls.tsx:134
+msgid "Optional"
+msgstr "Optional"
+
+#: src/components/companies/company-form.tsx:98
+msgid "Optional. Shown in the company list."
+msgstr "Optional. Shown in the company list."
+
+#: src/components/guidelines/guideline-upload.tsx:122
+msgid "or drag and drop"
+msgstr "or drag and drop"
+
+#: src/components/errors/error-views.tsx:88
+msgid "Page not found"
+msgstr "Page not found"
+
+#: src/components/chat/coverage-badge.tsx:19
+#: src/components/history/history-filters.tsx:60
+msgid "Partially covered"
+msgstr "Partially covered"
+
+#: src/components/auth/login-form.tsx:96
+msgid "Password"
+msgstr "Password"
+
+#: src/routes/_authenticated/chat.tsx:132
+msgid "Paste a customer message and get a reply grounded in the guidelines of the company."
+msgstr "Paste a customer message and get a reply grounded in the guidelines of the company."
+
+#: src/components/chat/message-thread.tsx:47
+msgid "Paste the customer message below to get a recommended reply."
+msgstr "Paste the customer message below to get a recommended reply."
+
+#: src/components/chat/composer.tsx:82
+msgid "Paste the customer's message…"
+msgstr "Paste the customer's message…"
+
+#: src/routes/_authenticated/chat.tsx:175
+msgid "Pick a company and start a conversation"
+msgstr "Pick a company and start a conversation"
+
+#: src/components/companies/guideline-status-badge.tsx:28
+#: src/components/guidelines/guideline-version-list.tsx:32
+#: src/components/guidelines/guideline-version-list.tsx:33
+#: src/components/guidelines/guideline-version-list.tsx:34
+msgid "Processing"
+msgstr "Processing"
+
+#: src/components/companies/guideline-status-badge.tsx:26
+msgid "Processing {pct}%"
+msgstr "Processing {pct}%"
+
+#: src/components/companies/guideline-status-badge.tsx:37
+#: src/components/guidelines/guideline-progress.tsx:31
+msgid "Processing failed"
+msgstr "Processing failed"
+
+#: src/components/guidelines/guideline-progress.tsx:62
+msgid "Processing…"
+msgstr "Processing…"
+
+#: src/components/feedback/feedback-controls.tsx:56
+msgid "Provide the answer the assistant should have given"
+msgstr "Provide the answer the assistant should have given"
+
+#: src/components/guidelines/guideline-progress.tsx:23
+#: src/components/guidelines/guideline-version-list.tsx:31
+msgid "Queued"
+msgstr "Queued"
+
+#: src/components/feedback/corrections-list.tsx:24
+msgid "Rate assistant answers in the chat; thumbs-down corrections show up here and guide future answers."
+msgstr "Rate assistant answers in the chat; thumbs-down corrections show up here and guide future answers."
+
+#: src/components/feedback/corrections-list.tsx:72
+msgid "Reactivate"
+msgstr "Reactivate"
+
+#: src/components/guidelines/guideline-version-list.tsx:28
+msgid "Ready"
+msgstr "Ready"
+
+#: src/components/chat/assistant-message.tsx:129
+msgid "Recommended reply"
+msgstr "Recommended reply"
+
+#: src/components/errors/error-views.tsx:75
+msgid "Reload the app"
+msgstr "Reload the app"
+
+#: src/components/guidelines/guideline-upload.tsx:150
+msgid "Remove file"
+msgstr "Remove file"
+
+#: src/components/guidelines/guideline-upload.tsx:187
+msgid "Replace anyway"
+msgstr "Replace anyway"
+
+#: src/components/guidelines/guideline-upload.tsx:145
+msgid "Replace guidelines"
+msgstr "Replace guidelines"
+
+#. placeholder {0}: error.requestId
+#: src/components/errors/error-views.tsx:17
+msgid "Request id: {0}"
+msgstr "Request id: {0}"
+
+#: src/components/history/why-panel.tsx:21
+msgid "Retrieved guideline sections"
+msgstr "Retrieved guideline sections"
+
+#: src/components/chat/assistant-message.tsx:40
+#: src/components/guidelines/guideline-progress.tsx:36
+#: src/components/guidelines/guideline-version-list.tsx:93
+msgid "Retry"
+msgstr "Retry"
+
+#: src/components/guidelines/guideline-section.tsx:90
+#: src/components/guidelines/guideline-section.tsx:135
+msgid "Retry queued"
+msgstr "Retry queued"
+
+#: src/routes/_authenticated/companies/$companyId.tsx:91
+msgid "Save changes"
+msgstr "Save changes"
+
+#: src/components/feedback/feedback-controls.tsx:161
+msgid "Save correction"
+msgstr "Save correction"
+
+#. placeholder {0}: (c.ordinal ?? 0) + 1
+#: src/components/guidelines/guideline-viewer.tsx:33
+msgid "Section {0}"
+msgstr "Section {0}"
+
+#: src/components/chat/company-picker.tsx:35
+msgid "Select a company"
+msgstr "Select a company"
+
+#: src/routes/_authenticated/chat.tsx:213
+msgid "Select a company on the left to begin."
+msgstr "Select a company on the left to begin."
+
+#: src/components/chat/composer.tsx:86
+#: src/components/chat/composer.tsx:89
+msgid "Send"
+msgstr "Send"
+
+#: src/components/chat/assistant-message.tsx:137
+msgid "Send this to the customer once the steps above are done."
+msgstr "Send this to the customer once the steps above are done."
+
+#: src/components/guidelines/guideline-viewer.tsx:52
+msgid "Show extracted text"
+msgstr "Show extracted text"
+
+#: src/components/guidelines/guideline-upload.tsx:165
+msgid "Someone else uploaded guidelines"
+msgstr "Someone else uploaded guidelines"
+
+#: src/components/errors/error-views.tsx:34
+msgid "Something went wrong"
+msgstr "Something went wrong"
+
+#: src/components/guidelines/guideline-progress.tsx:25
+msgid "Splitting into sections"
+msgstr "Splitting into sections"
+
+#: src/routes/_authenticated/chat.tsx:217
+msgid "Start a new conversation or pick a recent one."
+msgstr "Start a new conversation or pick a recent one."
+
+#. placeholder {0}: summary.createdBy?.displayName
+#. placeholder {1}: formatDateTime(summary.createdAt)
+#: src/routes/_authenticated/history/$conversationId.tsx:42
+msgid "started by {0} on {1}"
+msgstr "started by {0} on {1}"
+
+#: src/components/guidelines/guideline-version-list.tsx:30
+msgid "Superseded"
+msgstr "Superseded"
+
+#: src/routes/_authenticated/chat.tsx:130
+msgid "Support Chat"
+msgstr "Support Chat"
+
+#: src/components/feedback/feedback-controls.tsx:47
+msgid "Thanks, marked as helpful"
+msgstr "Thanks, marked as helpful"
+
+#: src/components/errors/error-views.tsx:65
+msgid "The application hit an unexpected error"
+msgstr "The application hit an unexpected error"
+
+#: src/components/chat/assistant-message.tsx:35
+msgid "The assistant could not answer"
+msgstr "The assistant could not answer"
+
+#: src/components/guidelines/guideline-upload.tsx:54
+msgid "The file is larger than {MAX_GUIDELINE_MB} MB."
+msgstr "The file is larger than {MAX_GUIDELINE_MB} MB."
+
+#: src/routes/_authenticated/companies/new.tsx:31
+msgid "The name must be unique across companies."
+msgstr "The name must be unique across companies."
+
+#: src/components/errors/error-views.tsx:89
+msgid "The page you are looking for does not exist or was moved."
+msgstr "The page you are looking for does not exist or was moved."
+
+#: src/components/guidelines/guideline-section.tsx:70
+msgid "The support guidelines the assistant follows for this company. Uploading a new file replaces the current one once processing finishes."
+msgstr "The support guidelines the assistant follows for this company. Uploading a new file replaces the current one once processing finishes."
+
+#: src/components/guidelines/guideline-upload.tsx:75
+msgid "This file is identical to the current guidelines. Nothing to process."
+msgstr "This file is identical to the current guidelines. Nothing to process."
+
+#: src/components/chat/assistant-message.tsx:133
+msgid "This reply asks the customer the questions above."
+msgstr "This reply asks the customer the questions above."
+
+#: src/components/errors/error-views.tsx:40
+#: src/components/errors/error-views.tsx:71
+msgid "Try again"
+msgstr "Try again"
+
+#: src/components/history/conversation-table.tsx:37
+msgid "Try another company or clear the filters."
+msgstr "Try another company or clear the filters."
+
+#: src/components/guidelines/guideline-upload.tsx:125
+msgid "TXT, MD, PDF or DOCX up to {MAX_GUIDELINE_MB} MB"
+msgstr "TXT, MD, PDF or DOCX up to {MAX_GUIDELINE_MB} MB"
+
+#: src/components/chat/assistant-message.tsx:36
+#: src/components/guidelines/guideline-progress.tsx:32
+msgid "Unknown error"
+msgstr "Unknown error"
+
+#. placeholder {0}: ACCEPTED_GUIDELINE_EXTENSIONS.join(', ')
+#: src/components/guidelines/guideline-upload.tsx:48
+msgid "Unsupported file type. Upload a {0} file."
+msgstr "Unsupported file type. Upload a {0} file."
+
+#: src/components/guidelines/guideline-upload.tsx:145
+msgid "Upload guidelines"
+msgstr "Upload guidelines"
+
+#: src/components/guidelines/guideline-section.tsx:121
+msgid "Upload history"
+msgstr "Upload history"
+
+#: src/routes/login.tsx:28
+msgid "Use one of the agent accounts to access the assistant."
+msgstr "Use one of the agent accounts to access the assistant."
+
+#: src/components/auth/login-form.tsx:85
+msgid "Username"
+msgstr "Username"
+
+#: src/components/guidelines/guideline-section.tsx:134
+msgid "Version activated"
+msgstr "Version activated"
+
+#: src/components/history/conversation-table.tsx:91
+msgid "View"
+msgstr "View"
+
+#: src/routes/_authenticated/chat.tsx:196
+msgid "View guidelines"
+msgstr "View guidelines"
+
+#: src/components/feedback/feedback-controls.tsx:79
+msgid "Was this helpful?"
+msgstr "Was this helpful?"
+
+#: src/components/feedback/feedback-controls.tsx:120
+msgid "What should the answer have been?"
+msgstr "What should the answer have been?"
+
+#: src/components/feedback/corrections-list.tsx:83
+msgid "What was wrong"
+msgstr "What was wrong"
+
+#: src/components/feedback/feedback-controls.tsx:133
+msgid "What was wrong?"
+msgstr "What was wrong?"
+
+#: src/components/history/why-panel.tsx:16
+msgid "Why this answer"
+msgstr "Why this answer"
+
+#: src/components/guidelines/guideline-progress.tsx:68
+msgid "You can keep working; this page updates automatically."
+msgstr "You can keep working; this page updates automatically."
+
+#: src/components/feedback/feedback-controls.tsx:102
+msgid "You submitted a correction."
+msgstr "You submitted a correction."
+
+#: src/components/chat/assistant-message.tsx:115
+msgid "Your call"
+msgstr "Your call"
+
+#: src/components/feedback/feedback-controls.tsx:123
+msgid "Your correction is stored for this company and shown to the assistant when similar customer messages come in. It never overrides the guidelines."
+msgstr "Your correction is stored for this company and shown to the assistant when similar customer messages come in. It never overrides the guidelines."

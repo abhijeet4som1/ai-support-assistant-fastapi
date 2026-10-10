@@ -1,0 +1,80 @@
+1. Shipping Issues
+Approach to solve:
+- Acknowledge the delay or problem.
+- Verify order and tracking details in the system.
+- Contact the courier for status and provide an updated ETA.
+- Communicate the new delivery information to the customer.
+- Offer compensation if appropriate (discount code, free expedited shipping).
+
+Sample reply:
+Hello [Name],
+I am sorry your order has been delayed. I have checked with the courier and your package is now expected to arrive on [Date]. I have applied a 10% discount code to your account for the inconvenience. Please let me know if there is anything else I can assist you with.
+
+2. Wrong Product Delivered
+Approach to solve:
+- Apologize for the error.
+- Ask the customer to confirm the delivered item against their original order.
+- Arrange shipment of the correct book immediately.
+- Provide a prepaid return label for the incorrect item.
+- Follow up to confirm the exchange was successful.
+
+Sample reply:
+Hello [Name],
+I apologize that you received the wrong book. Could you please confirm the title you received versus your original order? I will ship the correct book out today and send you a prepaid return label for the incorrect item. Thank you for your patience.
+
+3. Damaged Product Received
+Approach to solve:
+- Express regret and assess the severity of the damage.
+- Request a photo of the damaged book.
+- Offer either a replacement or a refund, based on customer preference.
+- Arrange pickup of the damaged item if necessary.
+- Expedite shipping of the replacement.
+
+Sample reply:
+Hello [Name],
+I am very sorry to see your book arrived damaged. Could you please send a photo of the damage? We can either send a replacement immediately or issue a full refund—whichever you prefer. Let me know, and I will arrange pickup of the damaged copy.
+
+4. Returns and Refunds
+Approach to solve:
+- Review return eligibility (timeframe and item condition).
+- Provide clear return instructions and a prepaid label if applicable.
+- Track the returned item in the warehouse system.
+- Process the refund promptly once the return is received.
+- Notify the customer when the refund is complete and specify the timeline.
+
+Sample reply:
+Hello [Name],
+Your return request has been approved. Please use the attached prepaid shipping label and send the item back within 7 days. Once we receive it, we will process your refund and notify you by email. Thank you.
+
+5. Payment and Billing Issues
+Approach to solve:
+- Confirm payment method and review transaction details.
+- Check for failed or pending payments in the system.
+- Advise the customer on how to retry payment or offer an alternative method.
+- Escalate persistent billing errors to the finance team.
+
+Sample reply:
+Hello [Name],
+It appears your payment did not go through. Please verify your card details or try using a different payment method. If you continue to experience issues, let me know and I will escalate this to our finance team.
+
+6. Order Modifications and Cancellations
+Approach to solve:
+- Verify the current order status (processing, shipped).
+- If the order has not shipped, update or cancel it as requested.
+- Confirm any price differences or restocking fees.
+- Send confirmation of the modification or cancellation to the customer.
+
+Sample reply:
+Hello [Name],
+Your order has not yet shipped. I have updated your order to include [Change] and adjusted the total accordingly. You will receive a confirmation email shortly. Let me know if there are any further changes.
+
+7. Product Availability and Backorders
+Approach to solve:
+- Check stock levels and expected restock dates.
+- Inform the customer of availability or estimated wait times.
+- Offer to notify the customer when the item is back in stock.
+- Suggest alternative titles if the backorder period is lengthy.
+
+Sample reply:
+Hello [Name],
+The book you requested is currently on backorder and expected back in stock on [Date]. I can notify you as soon as it arrives or suggest similar titles for immediate purchase. Please let me know your preference.

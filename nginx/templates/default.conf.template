@@ -1,0 +1,49 @@
+# Rendered by the nginx image entrypoint (envsubst on ${APP_*} only).
+server {
+    listen 80 default_server;
+    server_name ${APP_HOST} localhost;
+
+    # Resolve service names through Docker's embedded DNS at request time, so a recreated api
+    # (or web) container with a new address is picked up without restarting nginx.
+    resolver 127.0.0.11 valid=10s ipv6=off;
+
+    # Uploads: the api enforces MAX_UPLOAD_MB precisely; this is a coarse outer bound.
+    client_max_body_size 25m;
+
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript image/svg+xml;
+    gzip_min_length 1024;
+
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+
+    # Chat turns wait on the LLM (5–15 s typical); give them more headroom than the default.
+    location ^~ /api/conversations {
+        include /etc/nginx/proxy.conf;
+        proxy_read_timeout 120s;
+        set $api http://api:3000;
+        proxy_pass $api;
+    }
+
+    location /api/ {
+        include /etc/nginx/proxy.conf;
+        proxy_read_timeout 60s;
+        set $api http://api:3000;
+        proxy_pass $api;
+    }
+
+    # Hashed build assets: cache forever.
+    location /assets/ {
+        root /usr/share/nginx/html;
+        expires 1y;
+        add_header Cache-Control "public, immutable" always;
+        try_files $uri =404;
+    }
+
+    # SPA: always serve index.html for unknown paths, never cache it.
+    location / {
+        root /usr/share/nginx/html;
+        add_header Cache-Control "no-cache" always;
+        try_files $uri $uri/ /index.html;
+    }
+}

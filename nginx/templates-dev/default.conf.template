@@ -1,0 +1,34 @@
+# Development variant: / goes to the vite dev server (with HMR websocket), /api to the api.
+server {
+    listen 80 default_server;
+    server_name ${APP_HOST} localhost;
+
+    # Resolve service names through Docker's embedded DNS at request time, so a recreated api
+    # (or web) container with a new address is picked up without restarting nginx.
+    resolver 127.0.0.11 valid=10s ipv6=off;
+    client_max_body_size 25m;
+
+    location ^~ /api/conversations {
+        include /etc/nginx/proxy.conf;
+        proxy_read_timeout 120s;
+        set $api http://api:3000;
+        proxy_pass $api;
+    }
+
+    location /api/ {
+        include /etc/nginx/proxy.conf;
+        proxy_read_timeout 60s;
+        set $api http://api:3000;
+        proxy_pass $api;
+    }
+
+    location / {
+        set $web http://web:5173;
+        proxy_pass $web;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 3600s;
+    }
+}

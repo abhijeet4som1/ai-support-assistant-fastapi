@@ -1,0 +1,18 @@
+node_modules
+dist
+build
+coverage
+pnpm-lock.yaml
+packages/openapi
+web/src/routeTree.gen.ts
+web/src/api/schema.d.ts
+
+# generated evaluation output
+docs/evals/
+
+# prompt templates: the exact text (numbering, line breaks) is what the model receives
+api/prompts/
+
+# python
+api/.venv
+api/alembic/sql

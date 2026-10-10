@@ -1,0 +1,61 @@
+# TLS variant: HTTPS on 443 with a locally-trusted mkcert certificate, HTTP redirects.
+server {
+    listen 80 default_server;
+    server_name ${APP_HOST} localhost;
+
+    # Resolve service names through Docker's embedded DNS at request time, so a recreated api
+    # (or web) container with a new address is picked up without restarting nginx.
+    resolver 127.0.0.11 valid=10s ipv6=off;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl default_server;
+    http2 on;
+    server_name ${APP_HOST} localhost;
+
+    # Resolve service names through Docker's embedded DNS at request time, so a recreated api
+    # (or web) container with a new address is picked up without restarting nginx.
+    resolver 127.0.0.11 valid=10s ipv6=off;
+
+    ssl_certificate     /etc/nginx/certs/server.pem;
+    ssl_certificate_key /etc/nginx/certs/server-key.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    client_max_body_size 25m;
+
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript image/svg+xml;
+    gzip_min_length 1024;
+
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+    add_header Strict-Transport-Security "max-age=86400" always;
+
+    location ^~ /api/conversations {
+        include /etc/nginx/proxy.conf;
+        proxy_read_timeout 120s;
+        set $api http://api:3000;
+        proxy_pass $api;
+    }
+
+    location /api/ {
+        include /etc/nginx/proxy.conf;
+        proxy_read_timeout 60s;
+        set $api http://api:3000;
+        proxy_pass $api;
+    }
+
+    location /assets/ {
+        root /usr/share/nginx/html;
+        expires 1y;
+        add_header Cache-Control "public, immutable" always;
+        try_files $uri =404;
+    }
+
+    location / {
+        root /usr/share/nginx/html;
+        add_header Cache-Control "no-cache" always;
+        try_files $uri $uri/ /index.html;
+    }
+}

@@ -1,0 +1,37 @@
+{
+  "description": "Correction-quality cases. Each case has a customer message, what a thumbs-down agent said was wrong with the original answer, the answer they would have sent, and a similar follow-up message that should benefit from the stored correction.",
+  "cases": [
+    {
+      "company": "Bookshop",
+      "file": "bookshop_support_guidelines.txt",
+      "message": "I received the wrong book in my order #77812, I got 'The Silent Sea' instead of 'Ocean Atlas'.",
+      "whatWasWrong": "Did not ask the customer to confirm the title received against the order before promising a reshipment, and forgot the prepaid return label.",
+      "correctedAnswer": "Hello [Name], I apologise for the mix-up with order #77812. Could you please confirm the title printed on the book you received versus the one on your order confirmation? As soon as you confirm, I will ship 'Ocean Atlas' today and email you a prepaid return label for 'The Silent Sea'. Thank you for your patience.",
+      "similarMessage": "Wrong book arrived in order 11902, it's not the title I ordered. What should I do?"
+    },
+    {
+      "company": "Bookshop",
+      "file": "bookshop_support_guidelines.txt",
+      "message": "My order is 8 days late and tracking has not updated since it left the warehouse.",
+      "whatWasWrong": "Offered a 10% discount code unconditionally; compensation should be offered only after the courier check, and the reply must give a concrete next step.",
+      "correctedAnswer": "Hello [Name], I am sorry your order is delayed. I have opened a trace with the courier and will have an updated delivery estimate for you within 24 hours. If the parcel cannot be located by then, I will send a replacement at no cost and we can discuss compensation for the inconvenience. I will update you by email tomorrow.",
+      "similarMessage": "Package hasn't moved in over a week according to tracking, where is it?"
+    },
+    {
+      "company": "VPN SaaS",
+      "file": "vpn_support_guidelines.txt",
+      "message": "I keep getting 'Connection Failed' on the Frankfurt server since yesterday.",
+      "whatWasWrong": "Told the customer to reinstall the app first; the guideline order is to verify subscription, ask for server and protocol, then suggest switching server or protocol before anything drastic.",
+      "correctedAnswer": "Hello [Name], sorry you cannot connect. Your subscription is active, so let us narrow it down: which protocol are you using (WireGuard or OpenVPN)? Please try the Amsterdam server and, if that works, switch protocol on Frankfurt. If it still fails, temporarily disable your firewall or antivirus and reconnect. Let me know the result and I will take it from there.",
+      "similarMessage": "Can't connect to any German server, it just says connection failed."
+    },
+    {
+      "company": "VPN SaaS",
+      "file": "vpn_support_guidelines.txt",
+      "message": "My renewal payment failed and now the app says my subscription is inactive.",
+      "whatWasWrong": "Suggested cancelling and re-subscribing, which loses the customer's plan price; the guideline is to retry payment or update billing details, with manual processing as an option.",
+      "correctedAnswer": "Hello [Name], your renewal payment did not go through, which is why the app shows the subscription as inactive. Please update your payment details in the account portal and click 'Retry payment', or tell me and I can process it manually on your current plan so you keep your price. Once it succeeds, access is restored immediately.",
+      "similarMessage": "Payment for my plan bounced, the VPN stopped working. How do I fix it without losing my plan?"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+dist-cjs/
+dist-es/
+dist-types/
+build/
+coverage/
+*.tsbuildinfo
+
+# env
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ScaleFT sft CLI writes logs to a relative path during git-over-ssh; not part of the project
+Library/
+
+# smithy build output (generated code is copied into packages/ and committed from there)
+spec/build/
+
+# docker
+.docker-data/
+
+# lingui compiled catalogs (we import .po directly via @lingui/vite-plugin)
+web/src/locales/**/*.mjs
+web/src/locales/**/*.js
+
+# vite / vitest
+web/.vite/
+web/test-results/
+nginx/certs/
+
+# local-only: the sample boilerplate handed over with the brief, and the planning notes
+boilerplate/
+plan.md
+
+# rendered HTML copies of the docs (the Markdown sources are the deliverable)
+docs/*.html
+
+# python
+api/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
