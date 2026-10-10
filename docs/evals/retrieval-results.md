@@ -1,6 +1,6 @@
 # Retrieval evaluation results
 
-Generated 2026-10-10T19:36:25.351786Z with model `gemini-embedding-2`, chunker defaults, cosine similarity on unit vectors.
+Generated 2026-10-10T20:12:11.035490Z with model `gemini-embedding-2`, chunker defaults, cosine similarity on unit vectors.
 
 Dataset: 79 labelled in-scope messages (40 original, 22 manual, 10 vague, 7 multi) and 15 out-of-scope probes across 2 companies. Styles: original = the first labelled set; manual = the acceptance test plans; vague = short, emotional or underspecified messages; multi = messages spanning two sections, counted as recalled only when both reach the prompt.
 
