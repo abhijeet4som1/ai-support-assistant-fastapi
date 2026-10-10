@@ -1,0 +1,55 @@
+# Development override: hot reload for api (uvicorn --reload), worker (watchfiles) and web; nginx proxies to the vite dev server.
+# Start with:  pnpm dev   (= docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build)
+# Source folders are bind-mounted; a dependency change (package.json) needs a rebuild.
+services:
+  db:
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+
+  api:
+    build:
+      target: api-dev
+    image: ai-support-assistant-fastapi/api-dev
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: ${LOG_LEVEL:-debug}
+      LOG_PRETTY: 'true'
+    volumes:
+      - ./api/app:/app/app
+      - ./api/alembic:/app/alembic
+      - ./api/prompts:/app/prompts
+      - ./api/seed:/app/seed
+
+  worker:
+    image: ai-support-assistant-fastapi/api-dev
+    command: ['watchfiles', '--filter', 'python', 'python -m app.worker', 'app']
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: ${LOG_LEVEL:-debug}
+      LOG_PRETTY: 'true'
+    volumes:
+      - ./api/app:/app/app
+      - ./api/prompts:/app/prompts
+      - ./api/seed:/app/seed
+
+  web:
+    build:
+      context: .
+      target: web-dev
+    image: ai-support-assistant-fastapi/web-dev
+    environment:
+      VITE_WATCH_POLL: ${VITE_WATCH_POLL:-0}
+    volumes:
+      - ./web/src:/app/web/src
+      - ./web/public:/app/web/public
+      - ./web/index.html:/app/web/index.html
+    expose:
+      - '5173'
+
+  nginx:
+    build:
+      target: nginx-dev
+    image: ai-support-assistant-fastapi/nginx-dev
+    depends_on:
+      web:
+        condition: service_started

@@ -92,9 +92,26 @@ class ProcrastinateQueue:
 
     async def start(self) -> ProcrastinateQueue:
         await self.app.open_async()
-        await self.app.schema_manager.apply_schema_async()
         self._opened = True
+        await self._ensure_schema()
         return self
+
+    async def _schema_exists(self) -> bool:
+        row = await self.app.connector.execute_query_one_async(
+            "SELECT to_regclass('public.procrastinate_jobs') AS jobs"
+        )
+        return bool(row and row["jobs"])
+
+    async def _ensure_schema(self) -> None:
+        """Applies the Procrastinate schema on first start. The api and the worker start together,
+        so a lost race against the other process is fine as long as the schema is there."""
+        if await self._schema_exists():
+            return
+        try:
+            await self.app.schema_manager.apply_schema_async()
+        except self._pr.exceptions.ConnectorException:
+            if not await self._schema_exists():
+                raise
 
     def _task(self, name: str) -> Any:
         if name in self._tasks:

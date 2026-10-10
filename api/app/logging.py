@@ -27,7 +27,6 @@ def configure_logging(level: str = "info", pretty: bool = False) -> None:
     processors: list[Any] = [
         structlog.contextvars.merge_contextvars,
         structlog.stdlib.add_log_level,
-        structlog.stdlib.add_logger_name,
         structlog.processors.TimeStamper(fmt="iso", utc=True),
         structlog.processors.StackInfoRenderer(),
         structlog.processors.format_exc_info,
@@ -50,7 +49,7 @@ def configure_logging(level: str = "info", pretty: bool = False) -> None:
 
 
 def get_logger(name: str = "api", **initial: Any) -> Logger:
-    return structlog.get_logger(name).bind(**initial)  # type: ignore[no-any-return]
+    return structlog.get_logger().bind(logger=name, **initial)  # type: ignore[no-any-return]
 
 
 def bind_request_context(**values: Any) -> None:
