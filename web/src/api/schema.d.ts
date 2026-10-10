@@ -8,7 +8,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Exchange username + password for a token set. Public. */
+        /** Login */
         post: operations["Login"];
         delete?: never;
         options?: never;
@@ -25,7 +25,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Revoke the session family of a refresh token. Public; unknown tokens are ignored. */
+        /** Logout */
         post: operations["Logout"];
         delete?: never;
         options?: never;
@@ -40,7 +40,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Returns the user identified by the bearer token. */
+        /** Me */
         get: operations["GetCurrentUser"];
         put?: never;
         post?: never;
@@ -59,7 +59,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Rotate a refresh token into a new token set. Public (the refresh token is the credential). */
+        /** Refresh */
         post: operations["RefreshToken"];
         delete?: never;
         options?: never;
@@ -74,8 +74,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** List Companies */
         get: operations["ListCompanies"];
         put?: never;
+        /** Create Company */
         post: operations["CreateCompany"];
         delete?: never;
         options?: never;
@@ -90,12 +92,14 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Get Company */
         get: operations["GetCompany"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /** Update Company */
         patch: operations["UpdateCompany"];
         trace?: never;
     };
@@ -106,6 +110,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** List Corrections */
         get: operations["ListCorrections"];
         put?: never;
         post?: never;
@@ -122,13 +127,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description The active guideline version with its extracted text and chunks. */
+        /** Get Active Guidelines */
         get: operations["GetActiveGuidelines"];
-        /**
-         * @description Upload (or replace) the guideline file for a company. Processing is
-         *     asynchronous: returns 202 with the new version in `queued` status; poll
-         *     GetGuidelineVersion until it is `ready`, `failed` or `superseded`.
-         */
+        /** Upload Guidelines */
         put: operations["UploadGuidelines"];
         post?: never;
         delete?: never;
@@ -144,6 +145,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** List Guideline Versions */
         get: operations["ListGuidelineVersions"];
         put?: never;
         post?: never;
@@ -160,12 +162,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Lists the calling agent's own conversations, newest activity first. Conversations are private
-         *     to the agent who started them.
-         */
+        /** List Conversations */
         get: operations["ListConversations"];
         put?: never;
+        /** Create Conversation */
         post: operations["CreateConversation"];
         delete?: never;
         options?: never;
@@ -180,10 +180,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Returns the conversation with its newest messages (chronological order). Long threads are
-         *     paged: pass `before` (the `olderCursor` of a previous page) to load the messages preceding it.
-         */
+        /** Get Conversation */
         get: operations["GetConversation"];
         put?: never;
         post?: never;
@@ -202,11 +199,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * @description Append a customer message or an agent instruction and get the assistant's
-         *     guidance. Both the user message and the assistant message are persisted,
-         *     even when the AI provider fails (assistant message has status `failed`).
-         */
+        /** Send Message */
         post: operations["SendMessage"];
         delete?: never;
         options?: never;
@@ -227,7 +220,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /** @description Activate or deactivate a correction. */
+        /** Update Correction */
         patch: operations["UpdateCorrection"];
         trace?: never;
     };
@@ -238,7 +231,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Status + progress of one version. Poll while status is not terminal. */
+        /** Get Guideline Version */
         get: operations["GetGuidelineVersion"];
         put?: never;
         post?: never;
@@ -257,7 +250,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Make a `ready` version the active one (rollback / conflict resolution). */
+        /** Activate Guideline Version */
         post: operations["ActivateGuidelineVersion"];
         delete?: never;
         options?: never;
@@ -274,7 +267,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Re-enqueue a failed version. */
+        /** Retry Guideline Version */
         post: operations["RetryGuidelineVersion"];
         delete?: never;
         options?: never;
@@ -289,7 +282,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Liveness probe. Public. */
+        /** Health */
         get: operations["Health"];
         put?: never;
         post?: never;
@@ -307,7 +300,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        /** @description Rate an assistant message. A thumbs-down requires the corrected answer. */
+        /** Submit Feedback */
         put: operations["SubmitFeedback"];
         post?: never;
         delete?: never;
@@ -320,431 +313,643 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** ActivateGuidelineVersionResponseContent */
         ActivateGuidelineVersionResponseContent: {
             version: components["schemas"]["GuidelineVersionSummary"];
         };
-        /** @description The AI provider failed or timed out. Safe to retry. */
+        /**
+         * AiProviderErrorResponseContent
+         * @description The AI provider failed or timed out. Safe to retry.
+         */
         AiProviderErrorResponseContent: {
+            /** Message */
             message: string;
+            /** Provider */
             provider?: string;
         };
-        /** @description Structured guidance produced by the assistant for the agent. */
+        /**
+         * AssistantGuidance
+         * @description Structured guidance produced by the assistant for the agent.
+         */
         AssistantGuidance: {
             coverage: components["schemas"]["Coverage"];
-            /** @description Customer-facing draft; placeholders like [Name] are left for the agent. */
+            /**
+             * Recommendedreply
+             * @description Customer-facing draft; placeholders like [Name] are left for the agent.
+             */
             recommendedReply: string;
-            /** @description Internal steps for the agent, in order. */
+            /**
+             * Handlingsteps
+             * @description Internal steps for the agent, in order.
+             */
             handlingSteps: string[];
             /**
+             * Clarifications
              * @description Questions the customer must answer before the case can be resolved
              *     (preferences, missing details). Optional for older messages.
              */
             clarifications?: string[];
-            /** @description Decisions the guidelines leave to the agent's judgement (never questions for the customer). */
+            /**
+             * Agentdecisions
+             * @description Decisions the guidelines leave to the agent's judgement (never questions for the customer).
+             */
             agentDecisions: string[];
             escalation: components["schemas"]["Escalation"];
+            /** Citations */
             citations: components["schemas"]["Citation"][];
+            /** Notes */
             notes?: string;
         };
+        /** Citation */
         Citation: {
+            /** Chunkid */
             chunkId: string;
+            /** Title */
             title?: string;
         };
+        /** Company */
         Company: {
+            /** Id */
             id: string;
+            /** Name */
             name: string;
+            /** Description */
             description?: string;
+            /** Activeguidelines */
             activeGuidelines?: components["schemas"]["GuidelineVersionSummary"];
+            /** Latestguidelines */
             latestGuidelines?: components["schemas"]["GuidelineVersionSummary"];
-            /** Format: int32 */
+            /** Conversationcount */
             conversationCount: number;
             /**
+             * Createdat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             createdAt: string;
             /**
+             * Updatedat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             updatedAt: string;
         };
-        /** @description Generic conflict (e.g. duplicate company name). */
+        /**
+         * ConflictErrorResponseContent
+         * @description Generic conflict (e.g. duplicate company name).
+         */
         ConflictErrorResponseContent: {
+            /** Message */
             message: string;
         };
+        /** Conversation */
         Conversation: {
             summary: components["schemas"]["ConversationSummary"];
+            /** Messages */
             messages: components["schemas"]["Message"][];
         };
+        /** ConversationSummary */
         ConversationSummary: {
+            /** Id */
             id: string;
+            /** Companyid */
             companyId: string;
+            /** Companyname */
             companyName: string;
+            /** Title */
             title: string;
-            /** Format: int32 */
+            /** Messagecount */
             messageCount: number;
+            /** Lastcoverage */
             lastCoverage?: components["schemas"]["Coverage"];
             createdBy: components["schemas"]["User"];
             /**
+             * Createdat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             createdAt: string;
             /**
+             * Lastmessageat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             lastMessageAt: string;
         };
-        /** @description A stored piece of feedback, used as a few-shot correction for future answers. */
+        /**
+         * Correction
+         * @description A stored piece of feedback, used as a few-shot correction for future answers.
+         */
         Correction: {
+            /** Id */
             id: string;
+            /** Companyid */
             companyId: string;
+            /** Conversationid */
             conversationId: string;
+            /** Messageid */
             messageId: string;
             rating: components["schemas"]["FeedbackRating"];
-            /** @description The customer message that led to the flagged answer. */
+            /**
+             * Querytext
+             * @description The customer message that led to the flagged answer.
+             */
             queryText: string;
+            /** Whatwaswrong */
             whatWasWrong?: string;
+            /** Correctedanswer */
             correctedAnswer?: string;
+            /** Guidelineversionid */
             guidelineVersionId: string;
-            /** @description Inactive corrections are not retrieved (e.g. tied to replaced guidelines). */
+            /**
+             * Active
+             * @description Inactive corrections are not retrieved (e.g. tied to replaced guidelines).
+             */
             active: boolean;
             user: components["schemas"]["User"];
             /**
+             * Createdat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             createdAt: string;
         };
-        /** @enum {string} */
+        /**
+         * Coverage
+         * @enum {string}
+         */
         Coverage: "covered" | "partial" | "not_covered";
+        /** CreateCompanyRequestContent */
         CreateCompanyRequestContent: {
+            /** Name */
             name: string;
+            /** Description */
             description?: string;
         };
+        /** CreateCompanyResponseContent */
         CreateCompanyResponseContent: {
             company: components["schemas"]["Company"];
         };
+        /** CreateConversationRequestContent */
         CreateConversationRequestContent: {
+            /** Companyid */
             companyId: string;
         };
+        /** CreateConversationResponseContent */
         CreateConversationResponseContent: {
             conversation: components["schemas"]["Conversation"];
         };
+        /** Escalation */
         Escalation: {
+            /** Recommended */
             recommended: boolean;
+            /** To */
             to?: string;
+            /** Reason */
             reason?: string;
         };
-        /** @enum {string} */
+        /**
+         * FeedbackRating
+         * @enum {string}
+         */
         FeedbackRating: "up" | "down";
-        /** @description Feedback the current or another user left on an assistant message. */
+        /**
+         * FeedbackSummary
+         * @description Feedback the current or another user left on an assistant message.
+         */
         FeedbackSummary: {
+            /** Id */
             id: string;
             rating: components["schemas"]["FeedbackRating"];
+            /** Whatwaswrong */
             whatWasWrong?: string;
+            /** Correctedanswer */
             correctedAnswer?: string;
             user: components["schemas"]["User"];
             /**
+             * Createdat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             createdAt: string;
         };
+        /** GetActiveGuidelinesResponseContent */
         GetActiveGuidelinesResponseContent: {
             version: components["schemas"]["GuidelineVersionSummary"];
+            /** Text */
             text: string;
+            /** Chunks */
             chunks: components["schemas"]["GuidelineChunk"][];
         };
+        /** GetCompanyResponseContent */
         GetCompanyResponseContent: {
             company: components["schemas"]["Company"];
         };
+        /** GetConversationResponseContent */
         GetConversationResponseContent: {
             conversation: components["schemas"]["Conversation"];
-            /** @description Present when older messages exist; pass it as `before` to load them. */
+            /**
+             * Oldercursor
+             * @description Present when older messages exist; pass it as `before` to load them.
+             */
             olderCursor?: string;
         };
+        /** GetCurrentUserResponseContent */
         GetCurrentUserResponseContent: {
             user: components["schemas"]["User"];
         };
+        /** GetGuidelineVersionResponseContent */
         GetGuidelineVersionResponseContent: {
             version: components["schemas"]["GuidelineVersionSummary"];
         };
+        /** GuidelineChunk */
         GuidelineChunk: {
+            /** Id */
             id: string;
-            /** Format: int32 */
+            /** Ordinal */
             ordinal: number;
+            /** Title */
             title?: string;
+            /** Content */
             content: string;
-            /** Format: int32 */
+            /** Tokencount */
             tokenCount: number;
         };
         /**
-         * @description Lifecycle of an uploaded guideline file.
+         * GuidelineStatus
          * @enum {string}
          */
         GuidelineStatus: "queued" | "parsing" | "chunking" | "embedding" | "ready" | "failed" | "superseded";
+        /** GuidelineVersionSummary */
         GuidelineVersionSummary: {
+            /** Id */
             id: string;
+            /** Companyid */
             companyId: string;
+            /** Filename */
             filename: string;
+            /** Contenttype */
             contentType: string;
-            /** Format: int32 */
+            /** Sizebytes */
             sizeBytes: number;
             status: components["schemas"]["GuidelineStatus"];
-            /** Format: int32 */
+            /** Chunkstotal */
             chunksTotal: number;
-            /** Format: int32 */
+            /** Chunksembedded */
             chunksEmbedded: number;
+            /** Error */
             error?: string;
+            /** Isactive */
             isActive: boolean;
             uploadedBy: components["schemas"]["User"];
             /**
+             * Createdat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             createdAt: string;
             /**
+             * Updatedat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             updatedAt: string;
             /**
+             * Readyat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             readyAt?: string;
+            /** Supersededby */
             supersededBy?: string;
         };
-        /** @description Another user uploaded guidelines after the client loaded the page. */
+        /**
+         * GuidelinesConflictErrorResponseContent
+         * @description Another user uploaded guidelines after the client loaded the page.
+         */
         GuidelinesConflictErrorResponseContent: {
+            /** Message */
             message: string;
+            /** Latestversionid */
             latestVersionId: string;
             uploadedBy: components["schemas"]["User"];
             /**
+             * Uploadedat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             uploadedAt: string;
         };
+        /** GuidelinesNotReadyErrorResponseContent */
         GuidelinesNotReadyErrorResponseContent: {
+            /** Message */
             message: string;
+            /** Companyid */
             companyId: string;
+            /** Lateststatus */
             latestStatus?: components["schemas"]["GuidelineStatus"];
         };
+        /** HealthResponseContent */
         HealthResponseContent: {
+            /** Status */
             status: string;
+            /** Service */
             service: string;
             /**
+             * Time
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             time: string;
         };
+        /** InternalServerErrorResponseContent */
         InternalServerErrorResponseContent: {
+            /** Message */
             message: string;
+            /** Requestid */
             requestId?: string;
         };
+        /** ListCompaniesResponseContent */
         ListCompaniesResponseContent: {
+            /** Items */
             items: components["schemas"]["Company"][];
         };
+        /** ListConversationsResponseContent */
         ListConversationsResponseContent: {
+            /** Items */
             items: components["schemas"]["ConversationSummary"][];
-            /** @description Cursor for paginated list operations (opaque to clients). */
+            /**
+             * Nextcursor
+             * @description Cursor for paginated list operations (opaque to clients).
+             */
             nextCursor?: string;
         };
+        /** ListCorrectionsResponseContent */
         ListCorrectionsResponseContent: {
+            /** Items */
             items: components["schemas"]["Correction"][];
         };
+        /** ListGuidelineVersionsResponseContent */
         ListGuidelineVersionsResponseContent: {
+            /** Items */
             items: components["schemas"]["GuidelineVersionSummary"][];
         };
+        /** LoginRequestContent */
         LoginRequestContent: {
+            /** Username */
             username: string;
+            /** Password */
             password: string;
         };
+        /** LoginResponseContent */
         LoginResponseContent: {
             tokens: components["schemas"]["TokenSet"];
             user: components["schemas"]["User"];
         };
+        /** LogoutRequestContent */
         LogoutRequestContent: {
+            /** Refreshtoken */
             refreshToken: string;
         };
+        /** LogoutResponseContent */
         LogoutResponseContent: {
+            /** Revoked */
             revoked: boolean;
         };
+        /** Message */
         Message: {
+            /** Id */
             id: string;
+            /** Conversationid */
             conversationId: string;
             role: components["schemas"]["MessageRole"];
             /**
+             * Content
              * @description Raw text for customer/instruction messages; the recommended reply for
              *     assistant messages (full structure in `guidance`).
              */
             content: string;
             status: components["schemas"]["MessageStatus"];
+            /** Error */
             error?: string;
+            /** Guidance */
             guidance?: components["schemas"]["AssistantGuidance"];
+            /** Retrieval */
             retrieval?: components["schemas"]["RetrievedChunk"][];
+            /** Correctionsused */
             correctionsUsed?: components["schemas"]["UsedCorrection"][];
+            /** Guidelineversionid */
             guidelineVersionId?: string;
+            /** Model */
             model?: string;
             /**
-             * Format: int32
+             * Prompttokens
              * @description Tokens in the prompt (system instruction, history, retrieved context).
              */
             promptTokens?: number;
             /**
-             * Format: int32
+             * Completiontokens
              * @description Visible answer tokens, excluding the model's reasoning.
              */
             completionTokens?: number;
             /**
-             * Format: int32
+             * Thinkingtokens
              * @description Reasoning ("thinking") tokens; billed as output but not part of the answer.
              */
             thinkingTokens?: number;
             /**
-             * Format: int32
+             * Totaltokens
              * @description Total tokens billed for the call as reported by the provider (prompt + thinking + answer).
              */
             totalTokens?: number;
-            /** Format: int32 */
+            /** Latencyms */
             latencyMs?: number;
+            /** Feedback */
             feedback?: components["schemas"]["FeedbackSummary"][];
             createdBy: components["schemas"]["User"];
             /**
+             * Createdat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             createdAt: string;
         };
-        /** @enum {string} */
+        /**
+         * MessageKind
+         * @enum {string}
+         */
         MessageKind: "customer" | "instruction";
-        /** @enum {string} */
+        /**
+         * MessageRole
+         * @enum {string}
+         */
         MessageRole: "customer" | "instruction" | "assistant";
-        /** @enum {string} */
+        /**
+         * MessageStatus
+         * @enum {string}
+         */
         MessageStatus: "ok" | "failed";
+        /** NotFoundErrorResponseContent */
         NotFoundErrorResponseContent: {
+            /** Message */
             message: string;
+            /** Resource */
             resource?: string;
+            /** Id */
             id?: string;
         };
+        /** PayloadTooLargeErrorResponseContent */
         PayloadTooLargeErrorResponseContent: {
+            /** Message */
             message: string;
-            /** Format: int32 */
+            /** Maxbytes */
             maxBytes: number;
         };
+        /** RateLimitedErrorResponseContent */
         RateLimitedErrorResponseContent: {
+            /** Message */
             message: string;
-            /** Format: int32 */
+            /** Retryafterseconds */
             retryAfterSeconds?: number;
         };
+        /** RefreshTokenRequestContent */
         RefreshTokenRequestContent: {
+            /** Refreshtoken */
             refreshToken: string;
         };
+        /** RefreshTokenResponseContent */
         RefreshTokenResponseContent: {
             tokens: components["schemas"]["TokenSet"];
             user: components["schemas"]["User"];
         };
+        /** RetrievedChunk */
         RetrievedChunk: {
+            /** Chunkid */
             chunkId: string;
+            /** Title */
             title?: string;
-            /** Format: double */
+            /** Score */
             score: number;
         };
+        /** RetryGuidelineVersionResponseContent */
         RetryGuidelineVersionResponseContent: {
             version: components["schemas"]["GuidelineVersionSummary"];
         };
+        /** SendMessageRequestContent */
         SendMessageRequestContent: {
             kind: components["schemas"]["MessageKind"];
+            /** Content */
             content: string;
         };
+        /** SendMessageResponseContent */
         SendMessageResponseContent: {
             userMessage: components["schemas"]["Message"];
             assistantMessage: components["schemas"]["Message"];
         };
+        /** SubmitFeedbackRequestContent */
         SubmitFeedbackRequestContent: {
             rating: components["schemas"]["FeedbackRating"];
+            /** Whatwaswrong */
             whatWasWrong?: string;
+            /** Correctedanswer */
             correctedAnswer?: string;
         };
+        /** SubmitFeedbackResponseContent */
         SubmitFeedbackResponseContent: {
             correction: components["schemas"]["Correction"];
         };
         /**
+         * TokenSet
          * @description Short-lived access token (JWT, sent as Bearer) plus a long-lived, single-use refresh token.
          *     Reusing a rotated refresh token revokes the whole session family.
          */
         TokenSet: {
+            /** Accesstoken */
             accessToken: string;
             /**
+             * Accessexpiresat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             accessExpiresAt: string;
+            /** Refreshtoken */
             refreshToken: string;
             /**
+             * Refreshexpiresat
              * Format: date-time
-             * @description ISO-8601 date-time (restJson1 would otherwise default to epoch seconds).
              */
             refreshExpiresAt: string;
         };
+        /** UnauthorizedErrorResponseContent */
         UnauthorizedErrorResponseContent: {
+            /** Message */
             message: string;
         };
+        /** UnsupportedMediaTypeErrorResponseContent */
         UnsupportedMediaTypeErrorResponseContent: {
+            /** Message */
             message: string;
+            /** Supported */
             supported: string[];
         };
+        /** UpdateCompanyRequestContent */
         UpdateCompanyRequestContent: {
+            /** Name */
             name?: string;
+            /** Description */
             description?: string;
         };
+        /** UpdateCompanyResponseContent */
         UpdateCompanyResponseContent: {
             company: components["schemas"]["Company"];
         };
+        /** UpdateCorrectionRequestContent */
         UpdateCorrectionRequestContent: {
+            /** Active */
             active: boolean;
         };
+        /** UpdateCorrectionResponseContent */
         UpdateCorrectionResponseContent: {
             correction: components["schemas"]["Correction"];
         };
         /** @description Raw uploaded guideline file bytes. */
         UploadGuidelinesInputPayload: Blob;
+        /** UploadGuidelinesResponseContent */
         UploadGuidelinesResponseContent: {
             version: components["schemas"]["GuidelineVersionSummary"];
         };
+        /** UsedCorrection */
         UsedCorrection: {
+            /** Correctionid */
             correctionId: string;
-            /** Format: double */
+            /** Score */
             score: number;
         };
+        /** User */
         User: {
+            /** Id */
             id: string;
+            /** Username */
             username: string;
+            /** Displayname */
             displayName: string;
         };
-        /** @description Describes one specific validation failure for an input member. */
+        /**
+         * ValidationExceptionField
+         * @description Describes one specific validation failure for an input member.
+         */
         ValidationExceptionField: {
-            /** @description A JSONPointer expression to the structure member whose value failed to satisfy the modeled constraints. */
+            /**
+             * Path
+             * @description A JSONPointer expression to the structure member whose value failed to satisfy the modeled constraints.
+             */
             path: string;
-            /** @description A detailed description of the validation failure. */
+            /**
+             * Message
+             * @description A detailed description of the validation failure.
+             */
             message: string;
         };
         /**
+         * ValidationExceptionResponseContent
          * @description A standard error for input validation failures.
-         *     This should be thrown by services when a member of the input structure
-         *     falls outside of the modeled or documented constraints.
          */
         ValidationExceptionResponseContent: {
-            /** @description A summary of the validation failure. */
+            /**
+             * Message
+             * @description A summary of the validation failure.
+             */
             message: string;
             /**
+             * Fieldlist
              * @description A list of specific failures encountered while validating the input.
-             *     A member can appear in this list more than once if it failed to satisfy multiple constraints.
              */
             fieldList?: components["schemas"]["ValidationExceptionField"][];
         };
@@ -770,7 +975,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Login 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -779,7 +984,7 @@ export interface operations {
                     "application/json": components["schemas"]["LoginResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -788,7 +993,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -797,7 +1002,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -806,7 +1011,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -830,7 +1035,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Logout 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -839,7 +1044,7 @@ export interface operations {
                     "application/json": components["schemas"]["LogoutResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -848,7 +1053,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -857,7 +1062,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -866,7 +1071,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -886,7 +1091,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description GetCurrentUser 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -895,7 +1100,7 @@ export interface operations {
                     "application/json": components["schemas"]["GetCurrentUserResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -904,7 +1109,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -913,7 +1118,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -922,7 +1127,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -946,7 +1151,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description RefreshToken 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -955,7 +1160,7 @@ export interface operations {
                     "application/json": components["schemas"]["RefreshTokenResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -964,7 +1169,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -973,7 +1178,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -982,7 +1187,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1002,7 +1207,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description ListCompanies 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1011,7 +1216,7 @@ export interface operations {
                     "application/json": components["schemas"]["ListCompaniesResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1020,7 +1225,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1029,7 +1234,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1038,7 +1243,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1062,7 +1267,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description CreateCompany 201 response */
+            /** @description Successful Response */
             201: {
                 headers: {
                     [name: string]: unknown;
@@ -1071,7 +1276,7 @@ export interface operations {
                     "application/json": components["schemas"]["CreateCompanyResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1080,7 +1285,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1089,7 +1294,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description ConflictError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -1098,7 +1303,7 @@ export interface operations {
                     "application/json": components["schemas"]["ConflictErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1107,7 +1312,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1129,7 +1334,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description GetCompany 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1138,7 +1343,7 @@ export interface operations {
                     "application/json": components["schemas"]["GetCompanyResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1147,7 +1352,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1156,7 +1361,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1165,7 +1370,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1174,7 +1379,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1194,13 +1399,13 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": components["schemas"]["UpdateCompanyRequestContent"];
             };
         };
         responses: {
-            /** @description UpdateCompany 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1209,7 +1414,7 @@ export interface operations {
                     "application/json": components["schemas"]["UpdateCompanyResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1218,7 +1423,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1227,7 +1432,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1236,7 +1441,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description ConflictError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -1245,7 +1450,7 @@ export interface operations {
                     "application/json": components["schemas"]["ConflictErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1254,7 +1459,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1268,7 +1473,7 @@ export interface operations {
     ListCorrections: {
         parameters: {
             query?: {
-                includeInactive?: boolean;
+                includeInactive?: boolean | null;
             };
             header?: never;
             path: {
@@ -1278,7 +1483,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description ListCorrections 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1287,7 +1492,7 @@ export interface operations {
                     "application/json": components["schemas"]["ListCorrectionsResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1296,7 +1501,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1305,7 +1510,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1314,7 +1519,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1323,7 +1528,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1345,7 +1550,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description GetActiveGuidelines 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1354,7 +1559,7 @@ export interface operations {
                     "application/json": components["schemas"]["GetActiveGuidelinesResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1363,7 +1568,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1372,7 +1577,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1381,7 +1586,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description GuidelinesNotReadyError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -1390,7 +1595,7 @@ export interface operations {
                     "application/json": components["schemas"]["GuidelinesNotReadyErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1399,7 +1604,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1414,15 +1619,15 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
+                /** @description Original file name (extension is used to pick the parser). */
+                "X-Filename": string;
+                /** @description Original MIME type as reported by the browser, if known. */
+                "X-File-Content-Type"?: string | null;
                 /**
                  * @description Id of the latest guideline version the client displayed. If a newer
                  *     version exists the upload is rejected with GuidelinesConflictError.
                  */
-                "X-Expected-Version"?: string;
-                /** @description Original MIME type as reported by the browser, if known. */
-                "X-File-Content-Type"?: string;
-                /** @description Original file name (extension is used to pick the parser). */
-                "X-Filename": string;
+                "X-Expected-Version"?: string | null;
             };
             path: {
                 companyId: string;
@@ -1435,7 +1640,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description UploadGuidelines 202 response */
+            /** @description Successful Response */
             202: {
                 headers: {
                     [name: string]: unknown;
@@ -1444,7 +1649,7 @@ export interface operations {
                     "application/json": components["schemas"]["UploadGuidelinesResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1453,7 +1658,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1462,7 +1667,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1471,7 +1676,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description GuidelinesConflictError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -1480,7 +1685,7 @@ export interface operations {
                     "application/json": components["schemas"]["GuidelinesConflictErrorResponseContent"];
                 };
             };
-            /** @description PayloadTooLargeError 413 response */
+            /** @description Request Entity Too Large */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -1489,7 +1694,7 @@ export interface operations {
                     "application/json": components["schemas"]["PayloadTooLargeErrorResponseContent"];
                 };
             };
-            /** @description UnsupportedMediaTypeError 415 response */
+            /** @description Unsupported Media Type */
             415: {
                 headers: {
                     [name: string]: unknown;
@@ -1498,7 +1703,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnsupportedMediaTypeErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1507,7 +1712,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1529,7 +1734,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description ListGuidelineVersions 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1538,7 +1743,7 @@ export interface operations {
                     "application/json": components["schemas"]["ListGuidelineVersionsResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1547,7 +1752,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1556,7 +1761,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1565,7 +1770,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1574,7 +1779,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1588,11 +1793,11 @@ export interface operations {
     ListConversations: {
         parameters: {
             query?: {
-                companyId?: string;
-                coverage?: components["schemas"]["Coverage"];
+                companyId?: string | null;
+                coverage?: components["schemas"]["Coverage"] | null;
                 /** @description Cursor for paginated list operations (opaque to clients). */
-                cursor?: string;
-                limit?: number;
+                cursor?: string | null;
+                limit?: number | null;
             };
             header?: never;
             path?: never;
@@ -1600,7 +1805,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description ListConversations 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1609,7 +1814,7 @@ export interface operations {
                     "application/json": components["schemas"]["ListConversationsResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1618,7 +1823,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1627,7 +1832,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1636,7 +1841,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1660,7 +1865,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description CreateConversation 201 response */
+            /** @description Successful Response */
             201: {
                 headers: {
                     [name: string]: unknown;
@@ -1669,7 +1874,7 @@ export interface operations {
                     "application/json": components["schemas"]["CreateConversationResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1678,7 +1883,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1687,7 +1892,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1696,7 +1901,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description GuidelinesNotReadyError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -1705,7 +1910,7 @@ export interface operations {
                     "application/json": components["schemas"]["GuidelinesNotReadyErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1714,7 +1919,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1729,9 +1934,9 @@ export interface operations {
         parameters: {
             query?: {
                 /** @description Load messages older than this cursor (from a previous page's `olderCursor`). */
-                before?: string;
+                before?: string | null;
                 /** @description Messages per page (default 50). */
-                limit?: number;
+                limit?: number | null;
             };
             header?: never;
             path: {
@@ -1741,7 +1946,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description GetConversation 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1750,7 +1955,7 @@ export interface operations {
                     "application/json": components["schemas"]["GetConversationResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1759,7 +1964,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1768,7 +1973,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1777,7 +1982,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1786,7 +1991,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1812,7 +2017,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description SendMessage 201 response */
+            /** @description Successful Response */
             201: {
                 headers: {
                     [name: string]: unknown;
@@ -1821,7 +2026,7 @@ export interface operations {
                     "application/json": components["schemas"]["SendMessageResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1830,7 +2035,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1839,7 +2044,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1848,7 +2053,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description GuidelinesNotReadyError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -1857,7 +2062,7 @@ export interface operations {
                     "application/json": components["schemas"]["GuidelinesNotReadyErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1866,7 +2071,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1875,7 +2080,7 @@ export interface operations {
                     "application/json": components["schemas"]["InternalServerErrorResponseContent"];
                 };
             };
-            /** @description AiProviderError 502 response */
+            /** @description Bad Gateway */
             502: {
                 headers: {
                     [name: string]: unknown;
@@ -1901,7 +2106,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description UpdateCorrection 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1910,7 +2115,7 @@ export interface operations {
                     "application/json": components["schemas"]["UpdateCorrectionResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1919,7 +2124,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1928,7 +2133,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1937,7 +2142,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -1946,7 +2151,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -1968,7 +2173,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description GetGuidelineVersion 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1977,7 +2182,7 @@ export interface operations {
                     "application/json": components["schemas"]["GetGuidelineVersionResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1986,7 +2191,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1995,7 +2200,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2004,7 +2209,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -2013,7 +2218,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -2035,7 +2240,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description ActivateGuidelineVersion 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2044,7 +2249,7 @@ export interface operations {
                     "application/json": components["schemas"]["ActivateGuidelineVersionResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -2053,7 +2258,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2062,7 +2267,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2071,7 +2276,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description ConflictError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -2080,7 +2285,7 @@ export interface operations {
                     "application/json": components["schemas"]["ConflictErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -2089,7 +2294,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -2111,7 +2316,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description RetryGuidelineVersion 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2120,7 +2325,7 @@ export interface operations {
                     "application/json": components["schemas"]["RetryGuidelineVersionResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -2129,7 +2334,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2138,7 +2343,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2147,7 +2352,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description ConflictError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -2156,7 +2361,7 @@ export interface operations {
                     "application/json": components["schemas"]["ConflictErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -2165,7 +2370,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -2185,7 +2390,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Health 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2194,7 +2399,7 @@ export interface operations {
                     "application/json": components["schemas"]["HealthResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -2203,7 +2408,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2212,7 +2417,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -2221,7 +2426,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -2247,7 +2452,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description SubmitFeedback 200 response */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2256,7 +2461,7 @@ export interface operations {
                     "application/json": components["schemas"]["SubmitFeedbackResponseContent"];
                 };
             };
-            /** @description ValidationException 400 response */
+            /** @description Bad Request */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -2265,7 +2470,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationExceptionResponseContent"];
                 };
             };
-            /** @description UnauthorizedError 401 response */
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2274,7 +2479,7 @@ export interface operations {
                     "application/json": components["schemas"]["UnauthorizedErrorResponseContent"];
                 };
             };
-            /** @description NotFoundError 404 response */
+            /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2283,7 +2488,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponseContent"];
                 };
             };
-            /** @description ConflictError 409 response */
+            /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -2292,7 +2497,7 @@ export interface operations {
                     "application/json": components["schemas"]["ConflictErrorResponseContent"];
                 };
             };
-            /** @description RateLimitedError 429 response */
+            /** @description Too Many Requests */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -2301,7 +2506,7 @@ export interface operations {
                     "application/json": components["schemas"]["RateLimitedErrorResponseContent"];
                 };
             };
-            /** @description InternalServerError 500 response */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;

@@ -77,11 +77,10 @@ async def get_company(
 )
 async def update_company(
     companyId: CompanyId,
+    body: UpdateCompanyRequestContent,
     user: CurrentUser,
     companies: Companies,
-    body: UpdateCompanyRequestContent | None = None,
 ) -> UpdateCompanyResponseContent:
-    body = body or UpdateCompanyRequestContent()
     company = await companies.update(
         companyId, name=body.name, description=body.description, user_id=user.id
     )

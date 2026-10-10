@@ -1,0 +1,3545 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AI Support Assistant API",
+    "description": "Generated from the Pydantic models in api/app/schemas.py. Do not edit by hand.",
+    "version": "2026-09-13"
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "operationId": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout",
+        "operationId": "Logout",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Me",
+        "operationId": "GetCurrentUser",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrentUserResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh",
+        "operationId": "RefreshToken",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/companies": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "List Companies",
+        "operationId": "ListCompanies",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListCompaniesResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Create Company",
+        "operationId": "CreateCompany",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompanyRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCompanyResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/companies/{companyId}": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Get Company",
+        "operationId": "GetCompany",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Companyid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCompanyResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Update Company",
+        "operationId": "UpdateCompany",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Companyid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompanyRequestContent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateCompanyResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/companies/{companyId}/corrections": {
+      "get": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "List Corrections",
+        "operationId": "ListCorrections",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Companyid"
+            }
+          },
+          {
+            "name": "includeInactive",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Includeinactive"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListCorrectionsResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/companies/{companyId}/guidelines": {
+      "put": {
+        "tags": [
+          "Guidelines"
+        ],
+        "summary": "Upload Guidelines",
+        "operationId": "UploadGuidelines",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Companyid"
+            }
+          },
+          {
+            "name": "X-Filename",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255,
+              "description": "Original file name (extension is used to pick the parser).",
+              "title": "X-Filename"
+            },
+            "description": "Original file name (extension is used to pick the parser)."
+          },
+          {
+            "name": "X-File-Content-Type",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Original MIME type as reported by the browser, if known.",
+              "title": "X-File-Content-Type"
+            },
+            "description": "Original MIME type as reported by the browser, if known."
+          },
+          {
+            "name": "X-Expected-Version",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Id of the latest guideline version the client displayed. If a newer\nversion exists the upload is rejected with GuidelinesConflictError.",
+              "title": "X-Expected-Version"
+            },
+            "description": "Id of the latest guideline version the client displayed. If a newer\nversion exists the upload is rejected with GuidelinesConflictError."
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadGuidelinesResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidelinesConflictErrorResponseContent"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsupportedMediaTypeErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadGuidelinesInputPayload"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Guidelines"
+        ],
+        "summary": "Get Active Guidelines",
+        "operationId": "GetActiveGuidelines",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Companyid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActiveGuidelinesResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidelinesNotReadyErrorResponseContent"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/companies/{companyId}/guidelines/versions": {
+      "get": {
+        "tags": [
+          "Guidelines"
+        ],
+        "summary": "List Guideline Versions",
+        "operationId": "ListGuidelineVersions",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Companyid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListGuidelineVersionsResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/conversations": {
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Create Conversation",
+        "operationId": "CreateConversation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConversationRequestContent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateConversationResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidelinesNotReadyErrorResponseContent"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "List Conversations",
+        "operationId": "ListConversations",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Companyid"
+            }
+          },
+          {
+            "name": "coverage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Coverage"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Coverage"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cursor for paginated list operations (opaque to clients).",
+              "title": "Cursor"
+            },
+            "description": "Cursor for paginated list operations (opaque to clients)."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 100,
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListConversationsResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/conversations/{conversationId}": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Get Conversation",
+        "operationId": "GetConversation",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Conversationid"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Load messages older than this cursor (from a previous page's `olderCursor`).",
+              "title": "Before"
+            },
+            "description": "Load messages older than this cursor (from a previous page's `olderCursor`)."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 100,
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Messages per page (default 50).",
+              "title": "Limit"
+            },
+            "description": "Messages per page (default 50)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetConversationResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/conversations/{conversationId}/messages": {
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Send Message",
+        "operationId": "SendMessage",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Conversationid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageRequestContent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendMessageResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidelinesNotReadyErrorResponseContent"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiProviderErrorResponseContent"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          }
+        }
+      }
+    },
+    "/api/corrections/{correctionId}": {
+      "patch": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Update Correction",
+        "operationId": "UpdateCorrection",
+        "parameters": [
+          {
+            "name": "correctionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Correctionid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCorrectionRequestContent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateCorrectionResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/guideline-versions/{versionId}": {
+      "get": {
+        "tags": [
+          "Guidelines"
+        ],
+        "summary": "Get Guideline Version",
+        "operationId": "GetGuidelineVersion",
+        "parameters": [
+          {
+            "name": "versionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Versionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetGuidelineVersionResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/guideline-versions/{versionId}/activate": {
+      "post": {
+        "tags": [
+          "Guidelines"
+        ],
+        "summary": "Activate Guideline Version",
+        "operationId": "ActivateGuidelineVersion",
+        "parameters": [
+          {
+            "name": "versionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Versionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivateGuidelineVersionResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/guideline-versions/{versionId}/retry": {
+      "post": {
+        "tags": [
+          "Guidelines"
+        ],
+        "summary": "Retry Guideline Version",
+        "operationId": "RetryGuidelineVersion",
+        "parameters": [
+          {
+            "name": "versionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Versionid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetryGuidelineVersionResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health",
+        "operationId": "Health",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/messages/{messageId}/feedback": {
+      "put": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Submit Feedback",
+        "operationId": "SubmitFeedback",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "title": "Messageid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitFeedbackRequestContent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitFeedbackResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitedErrorResponseContent"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActivateGuidelineVersionResponseContent": {
+        "properties": {
+          "version": {
+            "$ref": "#/components/schemas/GuidelineVersionSummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version"
+        ],
+        "title": "ActivateGuidelineVersionResponseContent"
+      },
+      "AiProviderErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "AiProviderErrorResponseContent",
+        "description": "The AI provider failed or timed out. Safe to retry."
+      },
+      "AssistantGuidance": {
+        "properties": {
+          "coverage": {
+            "$ref": "#/components/schemas/Coverage"
+          },
+          "recommendedReply": {
+            "type": "string",
+            "title": "Recommendedreply",
+            "description": "Customer-facing draft; placeholders like [Name] are left for the agent."
+          },
+          "handlingSteps": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Handlingsteps",
+            "description": "Internal steps for the agent, in order."
+          },
+          "clarifications": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Clarifications",
+            "description": "Questions the customer must answer before the case can be resolved\n(preferences, missing details). Optional for older messages."
+          },
+          "agentDecisions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Agentdecisions",
+            "description": "Decisions the guidelines leave to the agent's judgement (never questions for the customer)."
+          },
+          "escalation": {
+            "$ref": "#/components/schemas/Escalation"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/Citation"
+            },
+            "type": "array",
+            "title": "Citations"
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "coverage",
+          "recommendedReply",
+          "handlingSteps",
+          "agentDecisions",
+          "escalation",
+          "citations"
+        ],
+        "title": "AssistantGuidance",
+        "description": "Structured guidance produced by the assistant for the agent."
+      },
+      "Citation": {
+        "properties": {
+          "chunkId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Chunkid"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chunkId"
+        ],
+        "title": "Citation"
+      },
+      "Company": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "activeGuidelines": {
+            "$ref": "#/components/schemas/GuidelineVersionSummary",
+            "title": "Activeguidelines"
+          },
+          "latestGuidelines": {
+            "$ref": "#/components/schemas/GuidelineVersionSummary",
+            "title": "Latestguidelines"
+          },
+          "conversationCount": {
+            "type": "integer",
+            "title": "Conversationcount"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "conversationCount",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "Company"
+      },
+      "ConflictErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "ConflictErrorResponseContent",
+        "description": "Generic conflict (e.g. duplicate company name)."
+      },
+      "Conversation": {
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/ConversationSummary"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "type": "array",
+            "title": "Messages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "summary",
+          "messages"
+        ],
+        "title": "Conversation"
+      },
+      "ConversationSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "companyId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Companyid"
+          },
+          "companyName": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Companyname"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "messageCount": {
+            "type": "integer",
+            "title": "Messagecount"
+          },
+          "lastCoverage": {
+            "$ref": "#/components/schemas/Coverage",
+            "title": "Lastcoverage"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "lastMessageAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Lastmessageat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "companyId",
+          "companyName",
+          "title",
+          "messageCount",
+          "createdBy",
+          "createdAt",
+          "lastMessageAt"
+        ],
+        "title": "ConversationSummary"
+      },
+      "Correction": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "companyId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Companyid"
+          },
+          "conversationId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Conversationid"
+          },
+          "messageId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Messageid"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/FeedbackRating"
+          },
+          "queryText": {
+            "type": "string",
+            "title": "Querytext",
+            "description": "The customer message that led to the flagged answer."
+          },
+          "whatWasWrong": {
+            "type": "string",
+            "title": "Whatwaswrong"
+          },
+          "correctedAnswer": {
+            "type": "string",
+            "title": "Correctedanswer"
+          },
+          "guidelineVersionId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Guidelineversionid"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active",
+            "description": "Inactive corrections are not retrieved (e.g. tied to replaced guidelines)."
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "companyId",
+          "conversationId",
+          "messageId",
+          "rating",
+          "queryText",
+          "guidelineVersionId",
+          "active",
+          "user",
+          "createdAt"
+        ],
+        "title": "Correction",
+        "description": "A stored piece of feedback, used as a few-shot correction for future answers."
+      },
+      "Coverage": {
+        "type": "string",
+        "enum": [
+          "covered",
+          "partial",
+          "not_covered"
+        ],
+        "title": "Coverage"
+      },
+      "CreateCompanyRequestContent": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "CreateCompanyRequestContent"
+      },
+      "CreateCompanyResponseContent": {
+        "properties": {
+          "company": {
+            "$ref": "#/components/schemas/Company"
+          }
+        },
+        "type": "object",
+        "required": [
+          "company"
+        ],
+        "title": "CreateCompanyResponseContent"
+      },
+      "CreateConversationRequestContent": {
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Companyid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "companyId"
+        ],
+        "title": "CreateConversationRequestContent"
+      },
+      "CreateConversationResponseContent": {
+        "properties": {
+          "conversation": {
+            "$ref": "#/components/schemas/Conversation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "conversation"
+        ],
+        "title": "CreateConversationResponseContent"
+      },
+      "Escalation": {
+        "properties": {
+          "recommended": {
+            "type": "boolean",
+            "title": "Recommended"
+          },
+          "to": {
+            "type": "string",
+            "title": "To"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recommended"
+        ],
+        "title": "Escalation"
+      },
+      "FeedbackRating": {
+        "type": "string",
+        "enum": [
+          "up",
+          "down"
+        ],
+        "title": "FeedbackRating"
+      },
+      "FeedbackSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/FeedbackRating"
+          },
+          "whatWasWrong": {
+            "type": "string",
+            "title": "Whatwaswrong"
+          },
+          "correctedAnswer": {
+            "type": "string",
+            "title": "Correctedanswer"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "rating",
+          "user",
+          "createdAt"
+        ],
+        "title": "FeedbackSummary",
+        "description": "Feedback the current or another user left on an assistant message."
+      },
+      "GetActiveGuidelinesResponseContent": {
+        "properties": {
+          "version": {
+            "$ref": "#/components/schemas/GuidelineVersionSummary"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "chunks": {
+            "items": {
+              "$ref": "#/components/schemas/GuidelineChunk"
+            },
+            "type": "array",
+            "title": "Chunks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version",
+          "text",
+          "chunks"
+        ],
+        "title": "GetActiveGuidelinesResponseContent"
+      },
+      "GetCompanyResponseContent": {
+        "properties": {
+          "company": {
+            "$ref": "#/components/schemas/Company"
+          }
+        },
+        "type": "object",
+        "required": [
+          "company"
+        ],
+        "title": "GetCompanyResponseContent"
+      },
+      "GetConversationResponseContent": {
+        "properties": {
+          "conversation": {
+            "$ref": "#/components/schemas/Conversation"
+          },
+          "olderCursor": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Oldercursor",
+            "description": "Present when older messages exist; pass it as `before` to load them."
+          }
+        },
+        "type": "object",
+        "required": [
+          "conversation"
+        ],
+        "title": "GetConversationResponseContent"
+      },
+      "GetCurrentUserResponseContent": {
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user"
+        ],
+        "title": "GetCurrentUserResponseContent"
+      },
+      "GetGuidelineVersionResponseContent": {
+        "properties": {
+          "version": {
+            "$ref": "#/components/schemas/GuidelineVersionSummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version"
+        ],
+        "title": "GetGuidelineVersionResponseContent"
+      },
+      "GuidelineChunk": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "ordinal": {
+            "type": "integer",
+            "title": "Ordinal"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content"
+          },
+          "tokenCount": {
+            "type": "integer",
+            "title": "Tokencount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "ordinal",
+          "content",
+          "tokenCount"
+        ],
+        "title": "GuidelineChunk"
+      },
+      "GuidelineStatus": {
+        "type": "string",
+        "enum": [
+          "queued",
+          "parsing",
+          "chunking",
+          "embedding",
+          "ready",
+          "failed",
+          "superseded"
+        ],
+        "title": "GuidelineStatus"
+      },
+      "GuidelineVersionSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "companyId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Companyid"
+          },
+          "filename": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Filename"
+          },
+          "contentType": {
+            "type": "string",
+            "title": "Contenttype"
+          },
+          "sizeBytes": {
+            "type": "integer",
+            "title": "Sizebytes"
+          },
+          "status": {
+            "$ref": "#/components/schemas/GuidelineStatus"
+          },
+          "chunksTotal": {
+            "type": "integer",
+            "title": "Chunkstotal"
+          },
+          "chunksEmbedded": {
+            "type": "integer",
+            "title": "Chunksembedded"
+          },
+          "error": {
+            "type": "string",
+            "title": "Error"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          },
+          "uploadedBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          },
+          "readyAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Readyat"
+          },
+          "supersededBy": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Supersededby"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "companyId",
+          "filename",
+          "contentType",
+          "sizeBytes",
+          "status",
+          "chunksTotal",
+          "chunksEmbedded",
+          "isActive",
+          "uploadedBy",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "GuidelineVersionSummary"
+      },
+      "GuidelinesConflictErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "latestVersionId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Latestversionid"
+          },
+          "uploadedBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "uploadedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Uploadedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "latestVersionId",
+          "uploadedBy",
+          "uploadedAt"
+        ],
+        "title": "GuidelinesConflictErrorResponseContent",
+        "description": "Another user uploaded guidelines after the client loaded the page."
+      },
+      "GuidelinesNotReadyErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "companyId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Companyid"
+          },
+          "latestStatus": {
+            "$ref": "#/components/schemas/GuidelineStatus",
+            "title": "Lateststatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "companyId"
+        ],
+        "title": "GuidelinesNotReadyErrorResponseContent"
+      },
+      "HealthResponseContent": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Time"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "service",
+          "time"
+        ],
+        "title": "HealthResponseContent"
+      },
+      "InternalServerErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "requestId": {
+            "type": "string",
+            "title": "Requestid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "InternalServerErrorResponseContent"
+      },
+      "ListCompaniesResponseContent": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Company"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ListCompaniesResponseContent"
+      },
+      "ListConversationsResponseContent": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ConversationSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "nextCursor": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Nextcursor",
+            "description": "Cursor for paginated list operations (opaque to clients)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ListConversationsResponseContent"
+      },
+      "ListCorrectionsResponseContent": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Correction"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ListCorrectionsResponseContent"
+      },
+      "ListGuidelineVersionsResponseContent": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/GuidelineVersionSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ListGuidelineVersionsResponseContent"
+      },
+      "LoginRequestContent": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "LoginRequestContent"
+      },
+      "LoginResponseContent": {
+        "properties": {
+          "tokens": {
+            "$ref": "#/components/schemas/TokenSet"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tokens",
+          "user"
+        ],
+        "title": "LoginResponseContent"
+      },
+      "LogoutRequestContent": {
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Refreshtoken"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refreshToken"
+        ],
+        "title": "LogoutRequestContent"
+      },
+      "LogoutResponseContent": {
+        "properties": {
+          "revoked": {
+            "type": "boolean",
+            "title": "Revoked"
+          }
+        },
+        "type": "object",
+        "required": [
+          "revoked"
+        ],
+        "title": "LogoutResponseContent"
+      },
+      "Message": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "conversationId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Conversationid"
+          },
+          "role": {
+            "$ref": "#/components/schemas/MessageRole"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content",
+            "description": "Raw text for customer/instruction messages; the recommended reply for\nassistant messages (full structure in `guidance`)."
+          },
+          "status": {
+            "$ref": "#/components/schemas/MessageStatus"
+          },
+          "error": {
+            "type": "string",
+            "title": "Error"
+          },
+          "guidance": {
+            "$ref": "#/components/schemas/AssistantGuidance",
+            "title": "Guidance"
+          },
+          "retrieval": {
+            "items": {
+              "$ref": "#/components/schemas/RetrievedChunk"
+            },
+            "type": "array",
+            "title": "Retrieval"
+          },
+          "correctionsUsed": {
+            "items": {
+              "$ref": "#/components/schemas/UsedCorrection"
+            },
+            "type": "array",
+            "title": "Correctionsused"
+          },
+          "guidelineVersionId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Guidelineversionid"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "promptTokens": {
+            "type": "integer",
+            "title": "Prompttokens",
+            "description": "Tokens in the prompt (system instruction, history, retrieved context)."
+          },
+          "completionTokens": {
+            "type": "integer",
+            "title": "Completiontokens",
+            "description": "Visible answer tokens, excluding the model's reasoning."
+          },
+          "thinkingTokens": {
+            "type": "integer",
+            "title": "Thinkingtokens",
+            "description": "Reasoning (\"thinking\") tokens; billed as output but not part of the answer."
+          },
+          "totalTokens": {
+            "type": "integer",
+            "title": "Totaltokens",
+            "description": "Total tokens billed for the call as reported by the provider (prompt + thinking + answer)."
+          },
+          "latencyMs": {
+            "type": "integer",
+            "title": "Latencyms"
+          },
+          "feedback": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackSummary"
+            },
+            "type": "array",
+            "title": "Feedback"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "conversationId",
+          "role",
+          "content",
+          "status",
+          "createdBy",
+          "createdAt"
+        ],
+        "title": "Message"
+      },
+      "MessageKind": {
+        "type": "string",
+        "enum": [
+          "customer",
+          "instruction"
+        ],
+        "title": "MessageKind"
+      },
+      "MessageRole": {
+        "type": "string",
+        "enum": [
+          "customer",
+          "instruction",
+          "assistant"
+        ],
+        "title": "MessageRole"
+      },
+      "MessageStatus": {
+        "type": "string",
+        "enum": [
+          "ok",
+          "failed"
+        ],
+        "title": "MessageStatus"
+      },
+      "NotFoundErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "resource": {
+            "type": "string",
+            "title": "Resource"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "NotFoundErrorResponseContent"
+      },
+      "PayloadTooLargeErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "maxBytes": {
+            "type": "integer",
+            "title": "Maxbytes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "maxBytes"
+        ],
+        "title": "PayloadTooLargeErrorResponseContent"
+      },
+      "RateLimitedErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "retryAfterSeconds": {
+            "type": "integer",
+            "title": "Retryafterseconds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "RateLimitedErrorResponseContent"
+      },
+      "RefreshTokenRequestContent": {
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Refreshtoken"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refreshToken"
+        ],
+        "title": "RefreshTokenRequestContent"
+      },
+      "RefreshTokenResponseContent": {
+        "properties": {
+          "tokens": {
+            "$ref": "#/components/schemas/TokenSet"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tokens",
+          "user"
+        ],
+        "title": "RefreshTokenResponseContent"
+      },
+      "RetrievedChunk": {
+        "properties": {
+          "chunkId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Chunkid"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chunkId",
+          "score"
+        ],
+        "title": "RetrievedChunk"
+      },
+      "RetryGuidelineVersionResponseContent": {
+        "properties": {
+          "version": {
+            "$ref": "#/components/schemas/GuidelineVersionSummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version"
+        ],
+        "title": "RetryGuidelineVersionResponseContent"
+      },
+      "SendMessageRequestContent": {
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/MessageKind"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 20000,
+            "minLength": 1,
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kind",
+          "content"
+        ],
+        "title": "SendMessageRequestContent"
+      },
+      "SendMessageResponseContent": {
+        "properties": {
+          "userMessage": {
+            "$ref": "#/components/schemas/Message"
+          },
+          "assistantMessage": {
+            "$ref": "#/components/schemas/Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "userMessage",
+          "assistantMessage"
+        ],
+        "title": "SendMessageResponseContent"
+      },
+      "SubmitFeedbackRequestContent": {
+        "properties": {
+          "rating": {
+            "$ref": "#/components/schemas/FeedbackRating"
+          },
+          "whatWasWrong": {
+            "type": "string",
+            "maxLength": 5000,
+            "title": "Whatwaswrong"
+          },
+          "correctedAnswer": {
+            "type": "string",
+            "maxLength": 20000,
+            "title": "Correctedanswer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rating"
+        ],
+        "title": "SubmitFeedbackRequestContent"
+      },
+      "SubmitFeedbackResponseContent": {
+        "properties": {
+          "correction": {
+            "$ref": "#/components/schemas/Correction"
+          }
+        },
+        "type": "object",
+        "required": [
+          "correction"
+        ],
+        "title": "SubmitFeedbackResponseContent"
+      },
+      "TokenSet": {
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "title": "Accesstoken"
+          },
+          "accessExpiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Accessexpiresat"
+          },
+          "refreshToken": {
+            "type": "string",
+            "title": "Refreshtoken"
+          },
+          "refreshExpiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Refreshexpiresat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "accessToken",
+          "accessExpiresAt",
+          "refreshToken",
+          "refreshExpiresAt"
+        ],
+        "title": "TokenSet",
+        "description": "Short-lived access token (JWT, sent as Bearer) plus a long-lived, single-use refresh token.\nReusing a rotated refresh token revokes the whole session family."
+      },
+      "UnauthorizedErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "UnauthorizedErrorResponseContent"
+      },
+      "UnsupportedMediaTypeErrorResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "supported": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Supported"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "supported"
+        ],
+        "title": "UnsupportedMediaTypeErrorResponseContent"
+      },
+      "UpdateCompanyRequestContent": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "title": "UpdateCompanyRequestContent"
+      },
+      "UpdateCompanyResponseContent": {
+        "properties": {
+          "company": {
+            "$ref": "#/components/schemas/Company"
+          }
+        },
+        "type": "object",
+        "required": [
+          "company"
+        ],
+        "title": "UpdateCompanyResponseContent"
+      },
+      "UpdateCorrectionRequestContent": {
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "title": "Active"
+          }
+        },
+        "type": "object",
+        "required": [
+          "active"
+        ],
+        "title": "UpdateCorrectionRequestContent"
+      },
+      "UpdateCorrectionResponseContent": {
+        "properties": {
+          "correction": {
+            "$ref": "#/components/schemas/Correction"
+          }
+        },
+        "type": "object",
+        "required": [
+          "correction"
+        ],
+        "title": "UpdateCorrectionResponseContent"
+      },
+      "UploadGuidelinesInputPayload": {
+        "type": "string",
+        "description": "Raw uploaded guideline file bytes.",
+        "contentEncoding": "byte"
+      },
+      "UploadGuidelinesResponseContent": {
+        "properties": {
+          "version": {
+            "$ref": "#/components/schemas/GuidelineVersionSummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version"
+        ],
+        "title": "UploadGuidelinesResponseContent"
+      },
+      "UsedCorrection": {
+        "properties": {
+          "correctionId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Correctionid"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "correctionId",
+          "score"
+        ],
+        "title": "UsedCorrection"
+      },
+      "User": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Username"
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Displayname"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "username",
+          "displayName"
+        ],
+        "title": "User"
+      },
+      "ValidationExceptionField": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "A JSONPointer expression to the structure member whose value failed to satisfy the modeled constraints."
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "A detailed description of the validation failure."
+          }
+        },
+        "type": "object",
+        "required": [
+          "path",
+          "message"
+        ],
+        "title": "ValidationExceptionField",
+        "description": "Describes one specific validation failure for an input member."
+      },
+      "ValidationExceptionResponseContent": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "A summary of the validation failure."
+          },
+          "fieldList": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationExceptionField"
+            },
+            "type": "array",
+            "title": "Fieldlist",
+            "description": "A list of specific failures encountered while validating the input."
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "ValidationExceptionResponseContent",
+        "description": "A standard error for input validation failures."
+      }
+    },
+    "securitySchemes": {
+      "smithy.api.httpBearerAuth": {
+        "type": "http",
+        "description": "HTTP Bearer authentication",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "smithy.api.httpBearerAuth": []
+    }
+  ]
+}

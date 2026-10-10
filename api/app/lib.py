@@ -38,7 +38,9 @@ def provider_error_message(err: BaseException | str) -> str | None:
             return f"{inner['message']}{status}"
     # google-genai's APIError stringifies as "<code> <STATUS>. {'error': {...}}"; prefer its fields.
     message: Any = getattr(err, "message", None)
-    status: Any = getattr(err, "status", None)
+    err_status: Any = getattr(err, "status", None)
     if isinstance(message, str) and message and not isinstance(err, str):
-        return f"{message} ({status})" if isinstance(status, str) and status else message
+        return (
+            f"{message} ({err_status})" if isinstance(err_status, str) and err_status else message
+        )
     return raw
