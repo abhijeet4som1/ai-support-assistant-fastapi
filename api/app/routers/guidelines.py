@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Header, Path, Request
+from fastapi import APIRouter, Depends, Header, Path, Request, Response
 
-from app.deps import CurrentUser, Deps, Session, responses
+from app.deps import CurrentUser, Deps, Session, respond, responses
 from app.errors import (
     ConflictError,
     GuidelinesConflictError,
@@ -105,7 +105,7 @@ async def upload_guidelines(
             "version exists the upload is rejected with GuidelinesConflictError.",
         ),
     ] = None,
-) -> UploadGuidelinesResponseContent:
+) -> Response:
     body = await read_raw_body(request, deps.config.max_upload_bytes)
     result = await guidelines.upload(
         UploadInput(
@@ -117,7 +117,7 @@ async def upload_guidelines(
             user_id=user.id,
         )
     )
-    return UploadGuidelinesResponseContent(version=result.version)
+    return respond(UploadGuidelinesResponseContent(version=result.version), 202)
 
 
 @router.get(
@@ -129,10 +129,12 @@ async def upload_guidelines(
 )
 async def get_active_guidelines(
     companyId: CompanyId, user: CurrentUser, guidelines: Guidelines
-) -> GetActiveGuidelinesResponseContent:
+) -> Response:
     active = await guidelines.get_active(companyId)
-    return GetActiveGuidelinesResponseContent(
-        version=active.version, text=active.text, chunks=active.chunks
+    return respond(
+        GetActiveGuidelinesResponseContent(
+            version=active.version, text=active.text, chunks=active.chunks
+        )
     )
 
 
@@ -145,8 +147,10 @@ async def get_active_guidelines(
 )
 async def list_guideline_versions(
     companyId: CompanyId, user: CurrentUser, guidelines: Guidelines
-) -> ListGuidelineVersionsResponseContent:
-    return ListGuidelineVersionsResponseContent(items=await guidelines.list_versions(companyId))
+) -> Response:
+    return respond(
+        ListGuidelineVersionsResponseContent(items=await guidelines.list_versions(companyId))
+    )
 
 
 @router.get(
@@ -158,8 +162,10 @@ async def list_guideline_versions(
 )
 async def get_guideline_version(
     versionId: VersionId, user: CurrentUser, guidelines: Guidelines
-) -> GetGuidelineVersionResponseContent:
-    return GetGuidelineVersionResponseContent(version=await guidelines.get_version(versionId))
+) -> Response:
+    return respond(
+        GetGuidelineVersionResponseContent(version=await guidelines.get_version(versionId))
+    )
 
 
 @router.post(
@@ -171,8 +177,8 @@ async def get_guideline_version(
 )
 async def retry_guideline_version(
     versionId: VersionId, user: CurrentUser, guidelines: Guidelines
-) -> RetryGuidelineVersionResponseContent:
-    return RetryGuidelineVersionResponseContent(version=await guidelines.retry(versionId))
+) -> Response:
+    return respond(RetryGuidelineVersionResponseContent(version=await guidelines.retry(versionId)))
 
 
 @router.post(
@@ -184,5 +190,7 @@ async def retry_guideline_version(
 )
 async def activate_guideline_version(
     versionId: VersionId, user: CurrentUser, guidelines: Guidelines
-) -> ActivateGuidelineVersionResponseContent:
-    return ActivateGuidelineVersionResponseContent(version=await guidelines.activate(versionId))
+) -> Response:
+    return respond(
+        ActivateGuidelineVersionResponseContent(version=await guidelines.activate(versionId))
+    )

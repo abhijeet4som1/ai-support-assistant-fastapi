@@ -32,13 +32,41 @@ def to_sync_url(url: str) -> str:
 
 
 def create_engine(database_url: str, *, pool_size: int = 10) -> AsyncEngine:
+    # No pre-ping: it costs a round trip on every checkout; stale connections are recycled on a
+    # timer instead and a failed statement surfaces as a 500 the way it did before.
     return create_async_engine(
-        to_async_url(database_url), pool_size=pool_size, max_overflow=5, pool_pre_ping=True
+        to_async_url(database_url), pool_size=pool_size, max_overflow=5, pool_recycle=1800
     )
 
 
 def create_session_factory(engine: AsyncEngine) -> SessionFactory:
     return async_sessionmaker(engine, expire_on_commit=False, autoflush=False)
+
+
+def create_read_session_factory(engine: AsyncEngine) -> SessionFactory:
+    """Sessions for read-only requests: AUTOCOMMIT, so a GET costs its queries and nothing else
+    (no BEGIN, no COMMIT or ROLLBACK round trips). Never use it where a row lock must be held."""
+    return async_sessionmaker(
+        engine.execution_options(isolation_level="AUTOCOMMIT"),
+        expire_on_commit=False,
+        autoflush=False,
+    )
+
+
+STARTUP_LOCK_KEY = 7_204_315_001
+
+
+@asynccontextmanager
+async def startup_lock(engine: AsyncEngine) -> AsyncIterator[None]:
+    """A session-level Postgres advisory lock held for the duration of start-up work."""
+    from sqlalchemy import text
+
+    async with engine.connect() as conn:
+        await conn.execute(text("SELECT pg_advisory_lock(:key)"), {"key": STARTUP_LOCK_KEY})
+        try:
+            yield
+        finally:
+            await conn.execute(text("SELECT pg_advisory_unlock(:key)"), {"key": STARTUP_LOCK_KEY})
 
 
 @asynccontextmanager

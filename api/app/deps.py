@@ -8,7 +8,8 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from typing import Annotated, Any
 
-from fastapi import Depends, Request
+from fastapi import Depends, Request, Response
+from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.jwt import TokenSigner
@@ -23,6 +24,8 @@ from app.observability.tracer import Tracer
 from app.rag.embeddings import Embedder
 from app.rag.llm import ChatModel
 
+READ_METHODS = frozenset({"GET", "HEAD", "OPTIONS"})
+
 
 @dataclass
 class AppDeps:
@@ -34,11 +37,18 @@ class AppDeps:
     tracer: Tracer
     log: Logger
     signer: TokenSigner
+    # AUTOCOMMIT sessions for read-only requests and the auth lookup; falls back to `sessions`.
+    read_sessions: SessionFactory | None = None
+
+    def sessions_for(self, method: str) -> SessionFactory:
+        if self.read_sessions is not None and method.upper() in READ_METHODS:
+            return self.read_sessions
+        return self.sessions
 
     @asynccontextmanager
     async def auth_session(self) -> AsyncIterator[AuthService]:
-        """An AuthService on its own short-lived session (used by the auth middleware)."""
-        async with self.sessions() as session:
+        """An AuthService on its own short-lived read session (used by the auth middleware)."""
+        async with (self.read_sessions or self.sessions)() as session:
             yield AuthService(session, self.signer, self.config.REFRESH_TOKEN_TTL_DAYS)
 
 
@@ -50,9 +60,10 @@ def deps_of(request: Request) -> AppDeps:
 Deps = Annotated[AppDeps, Depends(deps_of)]
 
 
-async def get_session(deps: Deps) -> AsyncIterator[AsyncSession]:
-    """One session per request: committed when the handler succeeds, rolled back otherwise."""
-    async with deps.sessions() as session:
+async def get_session(request: Request, deps: Deps) -> AsyncIterator[AsyncSession]:
+    """One session per request: committed when the handler succeeds, rolled back otherwise.
+    Read-only methods get an AUTOCOMMIT session, which skips the transaction round trips."""
+    async with deps.sessions_for(request.method)() as session:
         try:
             yield session
             if session.in_transaction():
@@ -103,3 +114,14 @@ def responses(*errors: type[Any]) -> dict[int | str, dict[str, Any]]:
 
 
 PUBLIC: dict[str, Any] = {"security": []}
+
+
+def respond(model: BaseModel, status_code: int = 200) -> Response:
+    """Serialises a response model once, with pydantic-core, and hands FastAPI a finished
+    `Response`, which skips its second validation pass over the `response_model`. Optional members
+    left unset are omitted, as the contract expects."""
+    return Response(
+        content=model.model_dump_json(exclude_none=True),
+        media_type="application/json",
+        status_code=status_code,
+    )

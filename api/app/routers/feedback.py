@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Path, Query
+from fastapi import APIRouter, Depends, Path, Query, Response
 
-from app.deps import CurrentUser, Deps, Session, responses
+from app.deps import CurrentUser, Deps, Session, respond, responses
 from app.errors import ConflictError, NotFoundError
 from app.feedback.service import FeedbackService, SubmitFeedbackInput
 from app.schemas import (
@@ -35,7 +35,7 @@ Feedback = Annotated[FeedbackService, Depends(feedback_service)]
 )
 async def submit_feedback(
     messageId: Id, body: SubmitFeedbackRequestContent, user: CurrentUser, feedback: Feedback
-) -> SubmitFeedbackResponseContent:
+) -> Response:
     correction = await feedback.submit(
         SubmitFeedbackInput(
             message_id=messageId,
@@ -45,7 +45,7 @@ async def submit_feedback(
             user_id=user.id,
         )
     )
-    return SubmitFeedbackResponseContent(correction=correction)
+    return respond(SubmitFeedbackResponseContent(correction=correction))
 
 
 @router.get(
@@ -60,9 +60,11 @@ async def list_corrections(
     user: CurrentUser,
     feedback: Feedback,
     includeInactive: Annotated[bool | None, Query()] = None,
-) -> ListCorrectionsResponseContent:
-    return ListCorrectionsResponseContent(
-        items=await feedback.list_corrections(companyId, bool(includeInactive))
+) -> Response:
+    return respond(
+        ListCorrectionsResponseContent(
+            items=await feedback.list_corrections(companyId, bool(includeInactive))
+        )
     )
 
 
@@ -75,7 +77,9 @@ async def list_corrections(
 )
 async def update_correction(
     correctionId: Id, body: UpdateCorrectionRequestContent, user: CurrentUser, feedback: Feedback
-) -> UpdateCorrectionResponseContent:
-    return UpdateCorrectionResponseContent(
-        correction=await feedback.update_correction(correctionId, body.active)
+) -> Response:
+    return respond(
+        UpdateCorrectionResponseContent(
+            correction=await feedback.update_correction(correctionId, body.active)
+        )
     )

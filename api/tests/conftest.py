@@ -20,7 +20,13 @@ from testcontainers.postgres import PostgresContainer
 from app.auth.users import seed_users
 from app.config import Config, load_config
 from app.db.migrate import run_migrations
-from app.db.session import SessionFactory, create_engine, create_session_factory, to_sync_url
+from app.db.session import (
+    SessionFactory,
+    create_engine,
+    create_read_session_factory,
+    create_session_factory,
+    to_sync_url,
+)
 from app.ingestion.job import IngestionJob
 from app.jobs.queue import INGEST_GUIDELINES, InMemoryQueue
 from app.logging import configure_logging, get_logger
@@ -157,6 +163,7 @@ async def make_test_app(template_db: DatabaseHarness, **overrides: Any) -> AppHa
         chat_model=chat_model,
         tracer=tracer,
         log=log,
+        read_sessions=create_read_session_factory(engine),
     )
     ingest = IngestionJob(deps, embed_batch_size=4)
 

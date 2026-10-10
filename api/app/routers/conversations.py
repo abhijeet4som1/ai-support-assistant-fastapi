@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Path, Query
+from fastapi import APIRouter, Depends, Path, Query, Response
 
 from app.conversations.service import ConversationsService, ListArgs
-from app.deps import CurrentUser, Deps, Session, responses
+from app.deps import CurrentUser, Deps, Session, respond, responses
 from app.errors import AiProviderError, GuidelinesNotReadyError, NotFoundError
 from app.schemas import (
     Coverage,
@@ -38,9 +38,12 @@ Conversations = Annotated[ConversationsService, Depends(conversations_service)]
 )
 async def create_conversation(
     body: CreateConversationRequestContent, user: CurrentUser, conversations: Conversations
-) -> CreateConversationResponseContent:
-    return CreateConversationResponseContent(
-        conversation=await conversations.create(body.companyId, user.id)
+) -> Response:
+    return respond(
+        CreateConversationResponseContent(
+            conversation=await conversations.create(body.companyId, user.id)
+        ),
+        201,
     )
 
 
@@ -65,13 +68,15 @@ async def list_conversations(
         ),
     ] = None,
     limit: Annotated[int | None, Query(ge=1, le=100)] = None,
-) -> ListConversationsResponseContent:
+) -> Response:
     result = await conversations.list(
         ListArgs(
             user_id=user.id, company_id=companyId, coverage=coverage, cursor=cursor, limit=limit
         )
     )
-    return ListConversationsResponseContent(items=result.items, nextCursor=result.next_cursor)
+    return respond(
+        ListConversationsResponseContent(items=result.items, nextCursor=result.next_cursor)
+    )
 
 
 @router.get(
@@ -96,10 +101,12 @@ async def get_conversation(
     limit: Annotated[
         int | None, Query(ge=1, le=100, description="Messages per page (default 50).")
     ] = None,
-) -> GetConversationResponseContent:
+) -> Response:
     page = await conversations.get(conversationId, user.id, before=before, limit=limit)
-    return GetConversationResponseContent(
-        conversation=page.conversation, olderCursor=page.older_cursor
+    return respond(
+        GetConversationResponseContent(
+            conversation=page.conversation, olderCursor=page.older_cursor
+        )
     )
 
 
@@ -116,10 +123,13 @@ async def send_message(
     body: SendMessageRequestContent,
     user: CurrentUser,
     conversations: Conversations,
-) -> SendMessageResponseContent:
+) -> Response:
     sent = await conversations.send_message(
         conversation_id=conversationId, kind=body.kind, content=body.content, user_id=user.id
     )
-    return SendMessageResponseContent(
-        userMessage=sent.user_message, assistantMessage=sent.assistant_message
+    return respond(
+        SendMessageResponseContent(
+            userMessage=sent.user_message, assistantMessage=sent.assistant_message
+        ),
+        201,
     )

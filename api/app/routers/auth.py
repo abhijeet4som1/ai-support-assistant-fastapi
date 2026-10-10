@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 
 from app.auth.service import AuthService
-from app.deps import PUBLIC, CurrentUser, auth_service, responses
+from app.deps import PUBLIC, CurrentUser, auth_service, respond, responses
 from app.schemas import (
     GetCurrentUserResponseContent,
     LoginRequestContent,
@@ -28,9 +28,9 @@ Auth = Annotated[AuthService, Depends(auth_service)]
     responses=responses(),
     openapi_extra=PUBLIC,
 )
-async def login(body: LoginRequestContent, auth: Auth) -> LoginResponseContent:
+async def login(body: LoginRequestContent, auth: Auth) -> Response:
     session = await auth.login(body.username, body.password)
-    return LoginResponseContent(tokens=session.tokens, user=session.user.schema())
+    return respond(LoginResponseContent(tokens=session.tokens, user=session.user.schema()))
 
 
 @router.post(
@@ -41,9 +41,9 @@ async def login(body: LoginRequestContent, auth: Auth) -> LoginResponseContent:
     responses=responses(),
     openapi_extra=PUBLIC,
 )
-async def refresh(body: RefreshTokenRequestContent, auth: Auth) -> RefreshTokenResponseContent:
+async def refresh(body: RefreshTokenRequestContent, auth: Auth) -> Response:
     session = await auth.refresh(body.refreshToken)
-    return RefreshTokenResponseContent(tokens=session.tokens, user=session.user.schema())
+    return respond(RefreshTokenResponseContent(tokens=session.tokens, user=session.user.schema()))
 
 
 @router.post(
@@ -54,8 +54,8 @@ async def refresh(body: RefreshTokenRequestContent, auth: Auth) -> RefreshTokenR
     responses=responses(),
     openapi_extra=PUBLIC,
 )
-async def logout(body: LogoutRequestContent, auth: Auth) -> LogoutResponseContent:
-    return LogoutResponseContent(revoked=await auth.logout(body.refreshToken))
+async def logout(body: LogoutRequestContent, auth: Auth) -> Response:
+    return respond(LogoutResponseContent(revoked=await auth.logout(body.refreshToken)))
 
 
 @router.get(
@@ -65,5 +65,5 @@ async def logout(body: LogoutRequestContent, auth: Auth) -> LogoutResponseConten
     response_model_exclude_none=True,
     responses=responses(),
 )
-async def me(user: CurrentUser) -> GetCurrentUserResponseContent:
-    return GetCurrentUserResponseContent(user=user.schema())
+async def me(user: CurrentUser) -> Response:
+    return respond(GetCurrentUserResponseContent(user=user.schema()))

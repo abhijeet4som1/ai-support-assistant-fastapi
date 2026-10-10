@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 
-from app.deps import PUBLIC, responses
+from app.deps import PUBLIC, respond, responses
 from app.schemas import HealthResponseContent
 
 router = APIRouter(tags=["Health"])
@@ -18,5 +18,5 @@ router = APIRouter(tags=["Health"])
     responses=responses(),
     openapi_extra=PUBLIC,
 )
-async def health() -> HealthResponseContent:
-    return HealthResponseContent(status="ok", service="api", time=datetime.now(UTC))
+async def health() -> Response:
+    return respond(HealthResponseContent(status="ok", service="api", time=datetime.now(UTC)))

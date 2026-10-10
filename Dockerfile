@@ -31,7 +31,8 @@ RUN useradd --create-home --uid 1000 app && chown -R app:app /app
 USER app
 EXPOSE 3000
 # Health checks are defined per service in docker-compose.yml (the worker shares this image).
-CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "3000", "--proxy-headers", "--forwarded-allow-ips", "*"]
+# UVICORN_WORKERS processes per container (default 2); start-up work is serialised by an advisory lock.
+CMD ["sh", "-c", "exec uvicorn app.server:app --host 0.0.0.0 --port 3000 --proxy-headers --forwarded-allow-ips '*' --workers ${UVICORN_WORKERS:-2}"]
 
 FROM api-base AS api-dev
 RUN --mount=type=cache,target=/root/.cache/uv uv sync --frozen --no-install-project

@@ -117,6 +117,7 @@ class SentMessages:
 class _Loaded:
     conversation: Conversation
     company: Company
+    message_count: int = 0
 
 
 def compact_guidance(m: Message) -> str:
@@ -141,26 +142,32 @@ class ConversationsService:
         self._session = session
         self._deps = deps
         self._config: Config = deps.config
+        # Users seen in this request; a conversation page names the same agent many times.
+        self._users: dict[UUID, User] = {}
 
     async def _load_users(self, ids: list[UUID]) -> dict[UUID, User]:
-        unique = list(set(ids))
-        if not unique:
-            return {}
-        rows = await self._session.scalars(select(User).where(User.id.in_(unique)))
-        return {u.id: u for u in rows.all()}
+        missing = [i for i in set(ids) if i not in self._users]
+        if missing:
+            rows = await self._session.scalars(select(User).where(User.id.in_(missing)))
+            self._users.update({u.id: u for u in rows.all()})
+        return self._users
 
     async def _summaries(
-        self, rows: list[tuple[Conversation, str]]
+        self,
+        rows: list[tuple[Conversation, str]],
+        counts: dict[UUID, int] | None = None,
     ) -> list[ConversationSummarySchema]:
         if not rows:
             return []
         ids = [c.id for c, _ in rows]
-        counts = await self._session.execute(
-            select(Message.conversation_id, func.count())
-            .where(Message.conversation_id.in_(ids))
-            .group_by(Message.conversation_id)
-        )
-        count_by = dict(counts.all())
+        if counts is None:
+            result = await self._session.execute(
+                select(Message.conversation_id, func.count())
+                .where(Message.conversation_id.in_(ids))
+                .group_by(Message.conversation_id)
+            )
+            counts = dict(result.all())
+        count_by = counts
         users = await self._load_users([c.created_by for c, _ in rows])
         return [
             ConversationSummarySchema(
@@ -178,14 +185,22 @@ class ConversationsService:
         ]
 
     async def _load_conversation(self, conversation_id: str, user_id: str) -> _Loaded:
-        """Loads a conversation the given agent owns; another agent's conversation is a 404."""
+        """Loads a conversation the given agent owns, with its company, owner and message count
+        in one query; another agent's conversation is a 404."""
         cid = parse_uuid(conversation_id)
         row = None
         if cid:
+            count = (
+                select(func.count())
+                .where(Message.conversation_id == Conversation.id)
+                .correlate(Conversation)
+                .scalar_subquery()
+            )
             row = (
                 await self._session.execute(
-                    select(Conversation, Company)
+                    select(Conversation, Company, User, count)
                     .join(Company, Company.id == Conversation.company_id)
+                    .join(User, User.id == Conversation.created_by)
                     .where(Conversation.id == cid)
                 )
             ).first()
@@ -193,7 +208,8 @@ class ConversationsService:
             raise NotFoundError(
                 "Conversation not found", resource="conversation", id=conversation_id
             )
-        return _Loaded(conversation=row[0], company=row[1])
+        self._users[row[2].id] = row[2]
+        return _Loaded(conversation=row[0], company=row[1], message_count=int(row[3]))
 
     async def map_messages(self, rows: list[Message]) -> list[MessageSchema]:
         if not rows:
@@ -264,7 +280,11 @@ class ConversationsService:
         points at the page's first message when older ones exist."""
         loaded = await self._load_conversation(conversation_id, user_id)
         conv = loaded.conversation
-        summary = (await self._summaries([(conv, loaded.company.name)]))[0]
+        summary = (
+            await self._summaries(
+                [(conv, loaded.company.name)], counts={conv.id: loaded.message_count}
+            )
+        )[0]
         page_size = min(max(limit or 50, 1), 100)
         cursor = decode_cursor(before) if before else None
         stmt = select(Message).where(Message.conversation_id == conv.id)

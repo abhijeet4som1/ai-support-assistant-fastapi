@@ -7,13 +7,14 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from app.auth.service import AuthService, bearer_from_header
+from app.auth.service import bearer_from_header
 from app.auth.users import AuthUser
 from app.logging import bind_request_context
 
@@ -53,6 +54,9 @@ def is_public_route(routes: list[RouteMatcher], method: str, path: str) -> bool:
     return any(r.method == method.upper() and r.pattern.match(path) for r in routes)
 
 
+USER_CACHE_TTL_SECONDS = 30.0
+
+
 class AuthMiddleware:
     def __init__(
         self,
@@ -60,12 +64,38 @@ class AuthMiddleware:
         *,
         auth_service: Callable[[], Any],
         public_routes: Callable[[], list[RouteMatcher]],
+        verify: Callable[[str], Any] | None = None,
         docs_prefixes: tuple[str, ...] = ("/api/docs", "/api/openapi.json"),
     ) -> None:
         self.app = app
         self._auth_service = auth_service
         self._public_routes = public_routes
+        self._verify = verify
         self._docs = docs_prefixes
+        # The signature and expiry are checked on every request; the database lookup that follows
+        # only detects a deleted user, so its result is kept for a short while per token subject.
+        self._users: dict[str, tuple[float, AuthUser]] = {}
+
+    async def _authenticate(self, bearer: str) -> AuthUser | None:
+        if self._verify is None:
+            async with self._auth_service() as auth:
+                return await auth.authenticate(bearer)  # type: ignore[no-any-return]
+        claims = self._verify(bearer)
+        if claims is None:
+            return None
+        now = time.monotonic()
+        cached = self._users.get(claims.sub)
+        if cached and cached[0] > now:
+            return cached[1]
+        async with self._auth_service() as auth:
+            user: AuthUser | None = await auth.authenticate(bearer)
+        if user is not None:
+            if len(self._users) > 10_000:
+                self._users.clear()
+            self._users[claims.sub] = (now + USER_CACHE_TTL_SECONDS, user)
+        else:
+            self._users.pop(claims.sub, None)
+        return user
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] != "http":
@@ -79,9 +109,7 @@ class AuthMiddleware:
         user: AuthUser | None = None
         bearer = bearer_from_header(authorization)
         if bearer:
-            async with self._auth_service() as auth:
-                auth_service: AuthService = auth
-                user = await auth_service.authenticate(bearer)
+            user = await self._authenticate(bearer)
         state["user"] = user
         state["bad_token"] = bool(authorization) and user is None
         if user:

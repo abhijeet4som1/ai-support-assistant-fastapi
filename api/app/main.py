@@ -77,7 +77,10 @@ def create_app(deps: AppDeps, *, lifespan: Any = None) -> FastAPI:
 
     public_routes = public_routes_from_openapi(app.openapi())
     app.add_middleware(
-        AuthMiddleware, auth_service=deps.auth_session, public_routes=lambda: public_routes
+        AuthMiddleware,
+        auth_service=deps.auth_session,
+        public_routes=lambda: public_routes,
+        verify=deps.signer.verify,
     )
     app.add_middleware(RequestIdMiddleware)
     return app
@@ -92,6 +95,7 @@ def build_deps(
     chat_model: Any,
     tracer: Any,
     log: Logger | None = None,
+    read_sessions: Any = None,
 ) -> AppDeps:
     return AppDeps(
         config=config,
@@ -102,6 +106,7 @@ def build_deps(
         tracer=tracer,
         log=log or get_logger("api"),
         signer=TokenSigner(config.JWT_SECRET, config.ACCESS_TOKEN_TTL_MINUTES),
+        read_sessions=read_sessions,
     )
 
 
@@ -120,7 +125,12 @@ def production_app() -> FastAPI:
     """The api entry: migrations, seed, serve. Refuses to start on an embedding-size mismatch."""
     from app.db.migrate import run_migrations
     from app.db.seed import run_seed
-    from app.db.session import create_engine, create_session_factory
+    from app.db.session import (
+        create_engine,
+        create_read_session_factory,
+        create_session_factory,
+        startup_lock,
+    )
     from app.jobs.queue import create_procrastinate_queue
     from app.observability.tracer import create_tracer_from_config
     from app.rag.embeddings import GeminiEmbedder
@@ -133,6 +143,7 @@ def production_app() -> FastAPI:
     log = get_logger("api")
     engine = create_engine(config.DATABASE_URL)
     sessions = create_session_factory(engine)
+    read_sessions = create_read_session_factory(engine)
     embedder = GeminiEmbedder(
         api_key=config.GEMINI_API_KEY,
         model=config.GEMINI_EMBEDDING_MODEL,
@@ -180,15 +191,19 @@ def production_app() -> FastAPI:
         chat_model=chat_model,
         tracer=tracer,
         log=log,
+        read_sessions=read_sessions,
     )
 
     @asynccontextmanager
     async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
-        await run_migrations(engine)
-        log.info("database migrations applied")
-        queue.inner = await create_procrastinate_queue(config.DATABASE_URL, log)
-        async with sessions() as session:
-            await run_seed(session, deps, log, config.SEED_USERS)
+        # Several uvicorn workers start at once: migrations, the queue schema and the seed run
+        # under one advisory lock so the second worker waits and then finds everything in place.
+        async with startup_lock(engine):
+            await run_migrations(engine)
+            log.info("database migrations applied")
+            queue.inner = await create_procrastinate_queue(config.DATABASE_URL, log)
+            async with sessions() as session:
+                await run_seed(session, deps, log, config.SEED_USERS)
         try:
             yield
         finally:

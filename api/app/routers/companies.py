@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Path
+from fastapi import APIRouter, Depends, Path, Response
 
 from app.companies.service import CompaniesService
-from app.deps import CurrentUser, Session, responses
+from app.deps import CurrentUser, Session, respond, responses
 from app.errors import ConflictError, NotFoundError
 from app.schemas import (
     CreateCompanyRequestContent,
@@ -34,8 +34,8 @@ Companies = Annotated[CompaniesService, Depends(companies_service)]
     response_model_exclude_none=True,
     responses=responses(),
 )
-async def list_companies(user: CurrentUser, companies: Companies) -> ListCompaniesResponseContent:
-    return ListCompaniesResponseContent(items=await companies.list(user.id))
+async def list_companies(user: CurrentUser, companies: Companies) -> Response:
+    return respond(ListCompaniesResponseContent(items=await companies.list(user.id)))
 
 
 @router.post(
@@ -48,11 +48,11 @@ async def list_companies(user: CurrentUser, companies: Companies) -> ListCompani
 )
 async def create_company(
     body: CreateCompanyRequestContent, user: CurrentUser, companies: Companies
-) -> CreateCompanyResponseContent:
+) -> Response:
     company = await companies.create(
         name=body.name, description=body.description, created_by=user.id
     )
-    return CreateCompanyResponseContent(company=company)
+    return respond(CreateCompanyResponseContent(company=company), 201)
 
 
 @router.get(
@@ -62,10 +62,8 @@ async def create_company(
     response_model_exclude_none=True,
     responses=responses(NotFoundError),
 )
-async def get_company(
-    companyId: CompanyId, user: CurrentUser, companies: Companies
-) -> GetCompanyResponseContent:
-    return GetCompanyResponseContent(company=await companies.get(companyId, user.id))
+async def get_company(companyId: CompanyId, user: CurrentUser, companies: Companies) -> Response:
+    return respond(GetCompanyResponseContent(company=await companies.get(companyId, user.id)))
 
 
 @router.patch(
@@ -80,8 +78,8 @@ async def update_company(
     body: UpdateCompanyRequestContent,
     user: CurrentUser,
     companies: Companies,
-) -> UpdateCompanyResponseContent:
+) -> Response:
     company = await companies.update(
         companyId, name=body.name, description=body.description, user_id=user.id
     )
-    return UpdateCompanyResponseContent(company=company)
+    return respond(UpdateCompanyResponseContent(company=company))
