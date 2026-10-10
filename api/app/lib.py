@@ -27,7 +27,7 @@ def try_parse_json(text: str) -> Any:
 def provider_error_message(err: BaseException | str) -> str | None:
     """Provider errors (Gemini) put a JSON envelope in the message:
     `{"error":{"message":..,"status":..}}`. Returns the inner message with its status."""
-    raw = err if isinstance(err, str) else (str(err) if str(err) else None)
+    raw: str | None = err if isinstance(err, str) else (str(err) or None)
     if not raw:
         return None
     parsed = try_parse_json(raw)
@@ -37,8 +37,8 @@ def provider_error_message(err: BaseException | str) -> str | None:
             status = f" ({inner['status']})" if isinstance(inner.get("status"), str) else ""
             return f"{inner['message']}{status}"
     # google-genai's APIError stringifies as "<code> <STATUS>. {'error': {...}}"; prefer its fields.
-    message = getattr(err, "message", None)
-    status = getattr(err, "status", None)
+    message: Any = getattr(err, "message", None)
+    status: Any = getattr(err, "status", None)
     if isinstance(message, str) and message and not isinstance(err, str):
         return f"{message} ({status})" if isinstance(status, str) and status else message
     return raw

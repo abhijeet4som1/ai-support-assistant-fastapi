@@ -225,7 +225,7 @@ class RecordingTracer:
         self.turns.append(entry)
 
         class Rec:
-            trace_id = entry.trace_id
+            trace_id: str | None = entry.trace_id
 
             def summary(self, s: SummaryRecord) -> None:
                 entry.summary = s
@@ -307,7 +307,7 @@ class LangfuseTracer:
             )
 
             class Rec:
-                trace_id = root.trace_id
+                trace_id: str | None = root.trace_id
 
                 def summary(self, s: SummaryRecord) -> None:
                     root.start_observation(
@@ -413,7 +413,7 @@ class LangfuseTracer:
 
             class Rec:
                 def step(self, name: Literal["parse", "chunk"], data: dict[str, int | str]) -> None:
-                    root.start_observation(name=name, output=data).end()
+                    root.start_observation(name=str(name), as_type="span", output=data).end()
 
                 def embedded(self, batch: EmbeddedBatch) -> None:
                     root.start_observation(
@@ -435,7 +435,8 @@ class LangfuseTracer:
                 root.end()
 
     def score(self, inp: ScoreInput) -> None:
-        self._client.create_score(
+        client: Any = self._client
+        client.create_score(
             trace_id=inp.traceId,
             name=inp.name,
             value=inp.value,

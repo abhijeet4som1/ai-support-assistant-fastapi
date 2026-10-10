@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import math
 import re
-from typing import Literal, Protocol
+from typing import Any, Literal, Protocol
 
 from app.lib import error_status
 from app.logging import Logger, get_logger
@@ -75,7 +75,7 @@ class GeminiEmbedder:
                     ),
                 )
 
-            res = await with_retry(call, self.log)
+            res: Any = await with_retry(call, self.log)
             embeddings = getattr(res, "embeddings", None) or []
             vectors = [list(e.values or []) for e in embeddings]
             if len(vectors) != len(batch):

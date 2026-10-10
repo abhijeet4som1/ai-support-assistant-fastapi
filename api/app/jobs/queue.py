@@ -107,7 +107,7 @@ class ProcrastinateQueue:
             retry=self._pr.RetryStrategy(max_attempts=5, wait=5, exponential_wait=2),
             pass_context=True,
         )
-        async def run(context: Any, **payload: Any) -> None:
+        async def run(context: Any, /, **payload: Any) -> None:
             handler = queue._handlers.get(name)
             if handler is None:
                 raise RuntimeError(f"no handler for queue {name}")

@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from uuid import UUID
 
-from sqlalchemy import func, select
+from sqlalchemy import Select, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models import GuidelineVersion, User
@@ -46,7 +46,7 @@ def to_version_summary(
     )
 
 
-def _with_uploader():  # type: ignore[no-untyped-def]
+def _with_uploader() -> Select[GuidelineVersion, User]:
     return select(GuidelineVersion, User).join(User, User.id == GuidelineVersion.created_by)
 
 
