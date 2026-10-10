@@ -52,7 +52,7 @@ def test_config(**overrides: Any) -> Config:
 
 
 @dataclass
-class TestDatabase:
+class DatabaseHarness:
     admin_url: str  # libpq URL of the maintenance database
     template: str
 
@@ -78,18 +78,18 @@ class TestDatabase:
 
 
 @pytest.fixture(scope="session")
-def postgres() -> Iterator[TestDatabase]:
+def postgres() -> Iterator[DatabaseHarness]:
     external = os.environ.get("TEST_DATABASE_URL")
     if external:
-        yield TestDatabase(admin_url=to_sync_url(external), template="assistant_template")
+        yield DatabaseHarness(admin_url=to_sync_url(external), template="assistant_template")
         return
     with PostgresContainer("pgvector/pgvector:pg17", driver=None) as container:
         url = to_sync_url(container.get_connection_url())
-        yield TestDatabase(admin_url=url, template="assistant_template")
+        yield DatabaseHarness(admin_url=url, template="assistant_template")
 
 
 @pytest.fixture(scope="session")
-async def template_db(postgres: TestDatabase) -> TestDatabase:
+async def template_db(postgres: DatabaseHarness) -> DatabaseHarness:
     conn = await asyncpg.connect(postgres.admin_url)
     try:
         exists = await conn.fetchval(
@@ -107,7 +107,7 @@ async def template_db(postgres: TestDatabase) -> TestDatabase:
 
 
 @dataclass
-class TestApp:
+class AppHarness:
     app: Any
     client: AsyncClient
     sessions: SessionFactory
@@ -137,7 +137,7 @@ class TestApp:
         await self._close()
 
 
-async def make_test_app(template_db: TestDatabase, **overrides: Any) -> TestApp:
+async def make_test_app(template_db: DatabaseHarness, **overrides: Any) -> AppHarness:
     config = test_config(**overrides)
     url = await template_db.create()
     engine = create_engine(url, pool_size=5)
@@ -172,7 +172,7 @@ async def make_test_app(template_db: TestDatabase, **overrides: Any) -> TestApp:
         await engine.dispose()
         await template_db.drop(url)
 
-    return TestApp(
+    return AppHarness(
         app=app,
         client=client,
         sessions=sessions,
@@ -187,7 +187,7 @@ async def make_test_app(template_db: TestDatabase, **overrides: Any) -> TestApp:
 
 
 @pytest.fixture
-async def t(template_db: TestDatabase) -> AsyncIterator[TestApp]:
+async def t(template_db: DatabaseHarness) -> AsyncIterator[AppHarness]:
     """A fresh app per test function."""
     app = await make_test_app(template_db)
     try:
@@ -197,7 +197,7 @@ async def t(template_db: TestDatabase) -> AsyncIterator[TestApp]:
 
 
 @pytest.fixture(scope="module")
-async def tm(template_db: TestDatabase) -> AsyncIterator[TestApp]:
+async def tm(template_db: DatabaseHarness) -> AsyncIterator[AppHarness]:
     """A fresh app per test module (ported `beforeAll` suites share state across tests)."""
     app = await make_test_app(template_db)
     try:
